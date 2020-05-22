@@ -1,0 +1,11 @@
+id;number_bedrooms;number_bathroom;full_kitchen;elevator;parking;air_conditionair;backyard;pool;m_2
+1;76181;27608;true;true;true;true;true;true;95917
+2;61719;79846;false;true;true;true;true;true;44419
+3;83315;77114;false;false;false;true;false;true;74200
+4;6808;65310;true;false;true;false;false;true;60918
+5;26473;40769;true;false;true;false;true;false;63062
+6;67593;15835;true;false;true;false;true;false;7091
+7;50793;96839;false;true;true;false;true;true;76880
+8;46406;45826;true;true;true;true;false;false;66581
+9;45325;83961;false;true;true;false;true;true;36337
+10;17780;36924;false;true;true;true;false;true;3055

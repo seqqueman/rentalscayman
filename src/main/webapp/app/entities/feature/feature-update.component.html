@@ -1,0 +1,106 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-feature-heading">Create or edit a Feature</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_numberBedrooms">Number Bedrooms</label>
+                    <input type="number" class="form-control" name="numberBedrooms" id="field_numberBedrooms"
+                           formControlName="numberBedrooms"/>
+                    <div *ngIf="editForm.get('numberBedrooms')!.invalid && (editForm.get('numberBedrooms')!.dirty || editForm.get('numberBedrooms')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('numberBedrooms')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('numberBedrooms')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_numberBathroom">Number Bathroom</label>
+                    <input type="number" class="form-control" name="numberBathroom" id="field_numberBathroom"
+                           formControlName="numberBathroom"/>
+                    <div *ngIf="editForm.get('numberBathroom')!.invalid && (editForm.get('numberBathroom')!.dirty || editForm.get('numberBathroom')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('numberBathroom')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('numberBathroom')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fullKitchen">Full Kitchen</label>
+                    <input type="checkbox" class="form-control" name="fullKitchen" id="field_fullKitchen"
+                           formControlName="fullKitchen"/>
+                    <div *ngIf="editForm.get('fullKitchen')!.invalid && (editForm.get('fullKitchen')!.dirty || editForm.get('fullKitchen')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fullKitchen')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_elevator">Elevator</label>
+                    <input type="checkbox" class="form-control" name="elevator" id="field_elevator"
+                           formControlName="elevator"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_parking">Parking</label>
+                    <input type="checkbox" class="form-control" name="parking" id="field_parking"
+                           formControlName="parking"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_airConditionair">Air Conditionair</label>
+                    <input type="checkbox" class="form-control" name="airConditionair" id="field_airConditionair"
+                           formControlName="airConditionair"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_backyard">Backyard</label>
+                    <input type="checkbox" class="form-control" name="backyard" id="field_backyard"
+                           formControlName="backyard"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_pool">Pool</label>
+                    <input type="checkbox" class="form-control" name="pool" id="field_pool"
+                           formControlName="pool"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_m2">M 2</label>
+                    <input type="number" class="form-control" name="m2" id="field_m2"
+                           formControlName="m2"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

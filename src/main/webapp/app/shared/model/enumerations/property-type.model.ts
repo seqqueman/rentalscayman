@@ -1,0 +1,19 @@
+export const enum PropertyType {
+  NEWDEVELOPMENT = 'NEWDEVELOPMENT',
+
+  HOME = 'HOME',
+
+  ROOM = 'ROOM',
+
+  GARAGE = 'GARAGE',
+
+  STORAGEROOM = 'STORAGEROOM',
+
+  OFFICE = 'OFFICE',
+
+  WAREHOUSE = 'WAREHOUSE',
+
+  LAND = 'LAND',
+
+  BUILDING = 'BUILDING',
+}

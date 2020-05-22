@@ -1,0 +1,75 @@
+entity Address {
+    typeOfVia ViaType required
+    number String required
+    zipCode String required
+    areaDisctrict AreaDisctrict required
+    lat BigDecimal
+    lon BigDecimal
+}
+entity Company{
+    name String required
+    phone String required
+    email String required
+}
+entity Image{
+    name String
+    created LocalDate
+    img ImageBlob required
+    description String
+    url String
+}
+entity UserRegistered{
+    advertiser Boolean
+    phone String
+    numberOfAds Integer
+}
+entity Feature {
+    numberBedrooms Integer required
+    numberBathroom Integer required
+    fullKitchen Boolean required
+    elevator Boolean
+    parking Boolean
+    airConditionair Boolean
+    backyard Boolean
+    pool Boolean
+	m2 Integer
+}
+entity Advertisment {
+    description String required
+    createAt LocalDate required
+    modifiedAt LocalDate required
+	typeAd TypeAdvertisment required
+    propertyType PropertyType required
+    active Boolean required
+    price BigDecimal required
+    reference String required
+}
+enum AreaDisctrict {
+    WEST_BAY , GEORGE_TOWN , BODDEN_TOWN , NORTH_SIDE , EAST_END
+}
+enum TypeAdvertisment {
+    FOR_RENT, FOR_SELL
+}
+enum PropertyType {
+    NEWDEVELOPMENT , HOME, ROOM, GARAGE, STORAGEROOM, OFFICE, WAREHOUSE, LAND, BUILDING
+}
+enum ViaType {
+    STREET, SQUARE, BOULEVARD, ROAD
+}
+relationship OneToOne{
+    Advertisment {address} to Address
+    Advertisment {feature} to Feature
+    UserRegistered to User with jpaDerivedIdentifier
+    UserRegistered {company(name)} to Company
+    Company {logo} to Image
+}
+relationship ManyToOne {
+    Advertisment{user(login)} to User
+}
+
+relationship OneToMany{
+	Advertisment{images} to Image
+}
+paginate Advertisment with pagination
+service Advertisment with serviceClass
+service Advertisment with serviceImpl

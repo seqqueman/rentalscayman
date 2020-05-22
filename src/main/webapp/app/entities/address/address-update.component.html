@@ -1,0 +1,95 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-address-heading">Create or edit a Address</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_typeOfVia">Type Of Via</label>
+                    <select class="form-control" name="typeOfVia" formControlName="typeOfVia" id="field_typeOfVia">
+                        <option value="STREET">STREET</option>
+                        <option value="SQUARE">SQUARE</option>
+                        <option value="BOULEVARD">BOULEVARD</option>
+                        <option value="ROAD">ROAD</option>
+                    </select>
+                    <div *ngIf="editForm.get('typeOfVia')!.invalid && (editForm.get('typeOfVia')!.dirty || editForm.get('typeOfVia')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('typeOfVia')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_number">Number</label>
+                    <input type="text" class="form-control" name="number" id="field_number"
+                           formControlName="number"/>
+                    <div *ngIf="editForm.get('number')!.invalid && (editForm.get('number')!.dirty || editForm.get('number')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('number')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_zipCode">Zip Code</label>
+                    <input type="text" class="form-control" name="zipCode" id="field_zipCode"
+                           formControlName="zipCode"/>
+                    <div *ngIf="editForm.get('zipCode')!.invalid && (editForm.get('zipCode')!.dirty || editForm.get('zipCode')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('zipCode')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_areaDisctrict">Area Disctrict</label>
+                    <select class="form-control" name="areaDisctrict" formControlName="areaDisctrict" id="field_areaDisctrict">
+                        <option value="WEST_BAY">WEST_BAY</option>
+                        <option value="GEORGE_TOWN">GEORGE_TOWN</option>
+                        <option value="BODDEN_TOWN">BODDEN_TOWN</option>
+                        <option value="NORTH_SIDE">NORTH_SIDE</option>
+                        <option value="EAST_END">EAST_END</option>
+                    </select>
+                    <div *ngIf="editForm.get('areaDisctrict')!.invalid && (editForm.get('areaDisctrict')!.dirty || editForm.get('areaDisctrict')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('areaDisctrict')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_lat">Lat</label>
+                    <input type="number" class="form-control" name="lat" id="field_lat"
+                           formControlName="lat"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_lon">Lon</label>
+                    <input type="number" class="form-control" name="lon" id="field_lon"
+                           formControlName="lon"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

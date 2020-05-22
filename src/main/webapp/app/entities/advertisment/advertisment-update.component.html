@@ -1,0 +1,169 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-advertisment-heading">Create or edit a Advertisment</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           formControlName="description"/>
+                    <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('description')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_createAt">Create At</label>
+                    <div class="input-group">
+                        <input id="field_createAt" type="text" class="form-control" name="createAt" ngbDatepicker #createAtDp="ngbDatepicker" formControlName="createAt"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="createAtDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('createAt')!.invalid && (editForm.get('createAt')!.dirty || editForm.get('createAt')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('createAt')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_modifiedAt">Modified At</label>
+                    <div class="input-group">
+                        <input id="field_modifiedAt" type="text" class="form-control" name="modifiedAt" ngbDatepicker #modifiedAtDp="ngbDatepicker" formControlName="modifiedAt"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="modifiedAtDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('modifiedAt')!.invalid && (editForm.get('modifiedAt')!.dirty || editForm.get('modifiedAt')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('modifiedAt')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_typeAd">Type Ad</label>
+                    <select class="form-control" name="typeAd" formControlName="typeAd" id="field_typeAd">
+                        <option value="FOR_RENT">FOR_RENT</option>
+                        <option value="FOR_SELL">FOR_SELL</option>
+                    </select>
+                    <div *ngIf="editForm.get('typeAd')!.invalid && (editForm.get('typeAd')!.dirty || editForm.get('typeAd')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('typeAd')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_propertyType">Property Type</label>
+                    <select class="form-control" name="propertyType" formControlName="propertyType" id="field_propertyType">
+                        <option value="NEWDEVELOPMENT">NEWDEVELOPMENT</option>
+                        <option value="HOME">HOME</option>
+                        <option value="ROOM">ROOM</option>
+                        <option value="GARAGE">GARAGE</option>
+                        <option value="STORAGEROOM">STORAGEROOM</option>
+                        <option value="OFFICE">OFFICE</option>
+                        <option value="WAREHOUSE">WAREHOUSE</option>
+                        <option value="LAND">LAND</option>
+                        <option value="BUILDING">BUILDING</option>
+                    </select>
+                    <div *ngIf="editForm.get('propertyType')!.invalid && (editForm.get('propertyType')!.dirty || editForm.get('propertyType')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('propertyType')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_active">Active</label>
+                    <input type="checkbox" class="form-control" name="active" id="field_active"
+                           formControlName="active"/>
+                    <div *ngIf="editForm.get('active')!.invalid && (editForm.get('active')!.dirty || editForm.get('active')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('active')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                           formControlName="price"/>
+                    <div *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('price')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('price')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reference">Reference</label>
+                    <input type="text" class="form-control" name="reference" id="field_reference"
+                           formControlName="reference"/>
+                    <div *ngIf="editForm.get('reference')!.invalid && (editForm.get('reference')!.dirty || editForm.get('reference')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('reference')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_address">Address</label>
+                    <select class="form-control" id="field_address" name="address" formControlName="address">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="addressOption.id === editForm.get('address')!.value?.id ? editForm.get('address')!.value : addressOption" *ngFor="let addressOption of addresses; trackBy: trackById">{{ addressOption.id }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_feature">Feature</label>
+                    <select class="form-control" id="field_feature" name="feature" formControlName="feature">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="featureOption.id === editForm.get('feature')!.value?.id ? editForm.get('feature')!.value : featureOption" *ngFor="let featureOption of features; trackBy: trackById">{{ featureOption.id }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" formControlName="user">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.login }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

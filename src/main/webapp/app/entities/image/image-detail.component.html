@@ -1,0 +1,57 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="image">
+            <h2><span>Image</span> {{ image.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{ image.name }}</span>
+                </dd>
+                <dt><span>Created</span></dt>
+                <dd>
+                    <span>{{ image.created }}</span>
+                </dd>
+                <dt><span>Img</span></dt>
+                <dd>
+                    <div *ngIf="image.img">
+                        <a (click)="openFile(image.imgContentType, image.img)">
+                            <img [src]="'data:' + image.imgContentType + ';base64,' + image.img" style="max-width: 100%;" alt="image image"/>
+                        </a>
+                        {{ image.imgContentType }}, {{ byteSize(image.img) }}
+                    </div>
+                </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{ image.description }}</span>
+                </dd>
+                <dt><span>Url</span></dt>
+                <dd>
+                    <span>{{ image.url }}</span>
+                </dd>
+                <dt><span>Advertisment</span></dt>
+                <dd>
+                    <div *ngIf="image.advertisment">
+                        <a [routerLink]="['/advertisment', image.advertisment?.id, 'view']">{{ image.advertisment?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/image', image.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

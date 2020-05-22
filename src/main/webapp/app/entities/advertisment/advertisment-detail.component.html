@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="advertisment">
+            <h2><span>Advertisment</span> {{ advertisment.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{ advertisment.description }}</span>
+                </dd>
+                <dt><span>Create At</span></dt>
+                <dd>
+                    <span>{{ advertisment.createAt }}</span>
+                </dd>
+                <dt><span>Modified At</span></dt>
+                <dd>
+                    <span>{{ advertisment.modifiedAt }}</span>
+                </dd>
+                <dt><span>Type Ad</span></dt>
+                <dd>
+                    <span>{{ advertisment.typeAd }}</span>
+                </dd>
+                <dt><span>Property Type</span></dt>
+                <dd>
+                    <span>{{ advertisment.propertyType }}</span>
+                </dd>
+                <dt><span>Active</span></dt>
+                <dd>
+                    <span>{{ advertisment.active }}</span>
+                </dd>
+                <dt><span>Price</span></dt>
+                <dd>
+                    <span>{{ advertisment.price }}</span>
+                </dd>
+                <dt><span>Reference</span></dt>
+                <dd>
+                    <span>{{ advertisment.reference }}</span>
+                </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <div *ngIf="advertisment.address">
+                        <a [routerLink]="['/address', advertisment.address?.id, 'view']">{{ advertisment.address?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Feature</span></dt>
+                <dd>
+                    <div *ngIf="advertisment.feature">
+                        <a [routerLink]="['/feature', advertisment.feature?.id, 'view']">{{ advertisment.feature?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>User</span></dt>
+                <dd>
+                    {{ advertisment.user?.login }}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/advertisment', advertisment.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

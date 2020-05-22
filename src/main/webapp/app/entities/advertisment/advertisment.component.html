@@ -1,0 +1,101 @@
+<div>
+    <h2 id="page-heading">
+        <span>Advertisments</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advertisment" [routerLink]="['/advertisment/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Advertisment
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="advertisments?.length === 0">
+        <span>No advertisments found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="advertisments && advertisments.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createAt"><span>Create At</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="modifiedAt"><span>Modified At</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="typeAd"><span>Type Ad</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="propertyType"><span>Property Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="active"><span>Active</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="price"><span>Price</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="reference"><span>Reference</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="address.id"><span>Address</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="feature.id"><span>Feature</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="user.login"><span>User</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let advertisment of advertisments ;trackBy: trackId">
+                    <td><a [routerLink]="['/advertisment', advertisment.id, 'view']">{{ advertisment.id }}</a></td>
+                    <td>{{ advertisment.description }}</td>
+                    <td>{{ advertisment.createAt | date:'mediumDate' }}</td>
+                    <td>{{ advertisment.modifiedAt | date:'mediumDate' }}</td>
+                    <td>{{ advertisment.typeAd }}</td>
+                    <td>{{ advertisment.propertyType }}</td>
+                    <td>{{ advertisment.active }}</td>
+                    <td>{{ advertisment.price }}</td>
+                    <td>{{ advertisment.reference }}</td>
+                    <td>
+                        <div *ngIf="advertisment.address">
+                            <a [routerLink]="['/address', advertisment.address?.id, 'view']" >{{ advertisment.address?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="advertisment.feature">
+                            <a [routerLink]="['/feature', advertisment.feature?.id, 'view']" >{{ advertisment.feature?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        {{ advertisment.user?.login }}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/advertisment', advertisment.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/advertisment', advertisment.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(advertisment)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="advertisments && advertisments.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

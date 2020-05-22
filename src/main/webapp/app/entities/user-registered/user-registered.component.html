@@ -1,0 +1,75 @@
+<div>
+    <h2 id="page-heading">
+        <span>User Registereds</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-user-registered" [routerLink]="['/user-registered/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new User Registered
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="userRegistereds?.length === 0">
+        <span>No userRegistereds found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="userRegistereds && userRegistereds.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Advertiser</span></th>
+                    <th scope="col" ><span>Phone</span></th>
+                    <th scope="col" ><span>Number Of Ads</span></th>
+                    <th scope="col" ><span>User</span></th>
+                    <th scope="col" ><span>Company</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let userRegistered of userRegistereds ;trackBy: trackId">
+                    <td><a [routerLink]="['/user-registered', userRegistered.id, 'view']">{{ userRegistered.id }}</a></td>
+                    <td>{{ userRegistered.advertiser }}</td>
+                    <td>{{ userRegistered.phone }}</td>
+                    <td>{{ userRegistered.numberOfAds }}</td>
+                    <td>
+                        {{ userRegistered.user?.id }}
+                    </td>
+                    <td>
+                        <div *ngIf="userRegistered.company">
+                            <a [routerLink]="['/company', userRegistered.company?.id, 'view']" >{{ userRegistered.company?.name }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/user-registered', userRegistered.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/user-registered', userRegistered.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(userRegistered)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

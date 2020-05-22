@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Advertisment.
+    -->
+    <changeSet id="20200522075751-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="address_id"
+                                 baseTableName="advertisment"
+                                 constraintName="fk_advertisment_address_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="address"/>
+
+        <addForeignKeyConstraint baseColumnNames="feature_id"
+                                 baseTableName="advertisment"
+                                 constraintName="fk_advertisment_feature_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="feature"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="advertisment"
+                                 constraintName="fk_advertisment_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+</databaseChangeLog>

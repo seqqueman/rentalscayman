@@ -1,0 +1,55 @@
+{
+  "name": "Address",
+  "fields": [
+    {
+      "fieldName": "typeOfVia",
+      "fieldType": "ViaType",
+      "fieldValues": "STREET,SQUARE,BOULEVARD,ROAD",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "number",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "zipCode",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "areaDisctrict",
+      "fieldType": "AreaDisctrict",
+      "fieldValues": "WEST_BAY,GEORGE_TOWN,BODDEN_TOWN,NORTH_SIDE,EAST_END",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "lat",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "lon",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20200522075251",
+  "entityTableName": "address",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

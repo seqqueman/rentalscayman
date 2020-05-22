@@ -1,0 +1,62 @@
+{
+  "name": "Feature",
+  "fields": [
+    {
+      "fieldName": "numberBedrooms",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "numberBathroom",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "fullKitchen",
+      "fieldType": "Boolean",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "elevator",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "parking",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "airConditionair",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "backyard",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "pool",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "m2",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20200522075651",
+  "entityTableName": "feature",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

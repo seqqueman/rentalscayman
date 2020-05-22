@@ -47,6 +47,13 @@ public class CacheConfiguration {
             createCache(cm, com.rentalscayman.domain.User.class.getName());
             createCache(cm, com.rentalscayman.domain.Authority.class.getName());
             createCache(cm, com.rentalscayman.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.rentalscayman.domain.Address.class.getName());
+            createCache(cm, com.rentalscayman.domain.Company.class.getName());
+            createCache(cm, com.rentalscayman.domain.Image.class.getName());
+            createCache(cm, com.rentalscayman.domain.UserRegistered.class.getName());
+            createCache(cm, com.rentalscayman.domain.Feature.class.getName());
+            createCache(cm, com.rentalscayman.domain.Advertisment.class.getName());
+            createCache(cm, com.rentalscayman.domain.Advertisment.class.getName() + ".images");
             // jhipster-needle-ehcache-add-entry
         };
     }
