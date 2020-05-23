@@ -1,5 +1,5 @@
-export const enum TypeAdvertisment {
-  FOR_RENT = 'FOR_RENT',
+export enum TypeAdvertisment {
+  FOR_RENT = 'FOR RENT',
 
-  FOR_SELL = 'FOR_SELL',
+  FOR_SELL = 'FOR SELL',
 }

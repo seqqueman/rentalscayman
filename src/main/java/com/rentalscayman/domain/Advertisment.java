@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -251,6 +252,18 @@ public class Advertisment implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createAt = LocalDate.now();
+        modifiedAt = createAt;
+        reference = UUID.randomUUID().toString().replace("-", "").substring(4);
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        modifiedAt = LocalDate.now();
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

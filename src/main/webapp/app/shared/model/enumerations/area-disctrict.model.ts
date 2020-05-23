@@ -1,11 +1,11 @@
-export const enum AreaDisctrict {
-  WEST_BAY = 'WEST_BAY',
+export enum AreaDisctrict {
+  WEST_BAY = 'West Bay',
 
-  GEORGE_TOWN = 'GEORGE_TOWN',
+  GEORGE_TOWN = 'George Town',
 
-  BODDEN_TOWN = 'BODDEN_TOWN',
+  BODDEN_TOWN = 'Bodden Town',
 
-  NORTH_SIDE = 'NORTH_SIDE',
+  NORTH_SIDE = 'North Side',
 
-  EAST_END = 'EAST_END',
+  EAST_END = 'East End',
 }
