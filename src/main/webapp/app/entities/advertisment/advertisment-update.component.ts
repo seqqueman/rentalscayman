@@ -14,6 +14,10 @@ import { IFeature } from 'app/shared/model/feature.model';
 import { FeatureService } from 'app/entities/feature/feature.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { PropertyType } from 'app/shared/model/enumerations/property-type.model';
+import { AreaDisctrict } from 'app/shared/model/enumerations/area-disctrict.model';
+import { TypeAdvertisment } from 'app/shared/model/enumerations/type-advertisment.model';
+import { ViaType } from 'app/shared/model/enumerations/via-type.model';
 
 type SelectableEntity = IAddress | IFeature | IUser;
 
@@ -26,8 +30,13 @@ export class AdvertismentUpdateComponent implements OnInit {
   addresses: IAddress[] = [];
   features: IFeature[] = [];
   users: IUser[] = [];
-  createAtDp: any;
-  modifiedAtDp: any;
+  // createAtDp: any;
+  // modifiedAtDp: any;
+
+  ePropertyType = PropertyType;
+  eAreaDistrict = AreaDisctrict;
+  eTypeAdvertis = TypeAdvertisment;
+  eViaType = ViaType;
 
   editForm: FormGroup;
 
