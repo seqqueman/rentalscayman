@@ -35,6 +35,13 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  # cloud:
+  # gcp:
+  # storage:
+  # enabled: true
+  # credentials:
+  # location: classpath:/firstProject-84656810d396.json
+  # project-id:  firstproject-278607
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:h2:file:./target/h2db/db/rentalscayman;DB_CLOSE_DELAY=-1
@@ -117,3 +124,5 @@ jhipster:
 # ===================================================================
 
 # application:
+# gcpmine:
+# bucket-name: images-for-cayman
