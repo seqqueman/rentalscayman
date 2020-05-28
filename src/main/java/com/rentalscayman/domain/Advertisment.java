@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -30,11 +31,11 @@ public class Advertisment implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotNull
+    //    @NotNull
     @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
 
-    @NotNull
+    //    @NotNull
     @Column(name = "modified_at", nullable = false)
     private LocalDate modifiedAt;
 
@@ -56,19 +57,19 @@ public class Advertisment implements Serializable {
     @Column(name = "price", precision = 21, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @NotNull
+    //    @NotNull
     @Column(name = "reference", nullable = false)
     private String reference;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Address address;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Feature feature;
 
-    @OneToMany(mappedBy = "advertisment")
+    @OneToMany(mappedBy = "advertisment", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Image> images = new HashSet<>();
 
@@ -251,6 +252,18 @@ public class Advertisment implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createAt = LocalDate.now();
+        modifiedAt = createAt;
+        reference = UUID.randomUUID().toString().replace("-", "").substring(4);
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        modifiedAt = LocalDate.now();
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

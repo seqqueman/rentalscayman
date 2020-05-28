@@ -1,9 +1,9 @@
-export const enum ViaType {
-  STREET = 'STREET',
+export enum ViaType {
+  STREET = 'Street',
 
-  SQUARE = 'SQUARE',
+  SQUARE = 'Square',
 
-  BOULEVARD = 'BOULEVARD',
+  BOULEVARD = 'Boulevard',
 
-  ROAD = 'ROAD',
+  ROAD = 'Road',
 }
