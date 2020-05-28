@@ -106,15 +106,15 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="field_reference">Reference</label>
-          <input type="text" class="form-control" name="reference" id="field_reference" formControlName="reference" />
-          <div *ngIf="editForm.get('reference')!.invalid && (editForm.get('reference')!.dirty || editForm.get('reference')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('reference')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
+        <!-- <div class="form-group"> -->
+          <!-- <label class="form-control-label" for="field_reference">Reference</label> -->
+          <!-- <input type="text" class="form-control" name="reference" id="field_reference" formControlName="reference" /> -->
+          <!-- <div *ngIf="editForm.get('reference')!.invalid && (editForm.get('reference')!.dirty || editForm.get('reference')!.touched)"> -->
+            <!-- <small class="form-text text-danger" *ngIf="editForm.get('reference')?.errors?.required"> -->
+              <!-- This field is required. -->
+            <!-- </small> -->
+          <!-- </div> -->
+        <!-- </div> -->
 
         <div class="form-group" formGroupName="address">
           <label class="form-control-label" for="field_address">Address</label>

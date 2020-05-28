@@ -57,7 +57,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       propertyType: [null, [Validators.required]],
       // active: [null, [Validators.required]],
       price: [null, [Validators.required]],
-      reference: [null, [Validators.required]],
+      // reference: [''],
       address: this.fb.group({
         typeOfVia: [null, [Validators.required]],
         number: [null, [Validators.required]],
@@ -141,7 +141,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       propertyType: advertisment.propertyType,
       // active: advertisment.active,
       price: advertisment.price,
-      reference: advertisment.reference,
+      // reference: advertisment.reference,
       address: {
         typeOfVia: advertisment.address?.typeOfVia,
         number: advertisment.address?.number,
@@ -189,7 +189,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       propertyType: this.editForm.get(['propertyType'])!.value,
       // active: this.editForm.get(['active'])!.value,
       price: this.editForm.get(['price'])!.value,
-      reference: this.editForm.get(['reference'])!.value,
+      // reference: this.editForm.get(['reference'])!.value,
       address: {
         typeOfVia: this.editForm.get(['address', 'typeOfVia'])!.value,
         number: this.editForm.get(['address', 'number'])!.value,

@@ -31,11 +31,11 @@ public class Advertisment implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotNull
+    //    @NotNull
     @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
 
-    @NotNull
+    //    @NotNull
     @Column(name = "modified_at", nullable = false)
     private LocalDate modifiedAt;
 
@@ -57,19 +57,19 @@ public class Advertisment implements Serializable {
     @Column(name = "price", precision = 21, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @NotNull
+    //    @NotNull
     @Column(name = "reference", nullable = false)
     private String reference;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Address address;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Feature feature;
 
-    @OneToMany(mappedBy = "advertisment")
+    @OneToMany(mappedBy = "advertisment", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Image> images = new HashSet<>();
 

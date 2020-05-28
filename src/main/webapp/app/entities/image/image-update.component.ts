@@ -9,7 +9,7 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IImage, Image } from 'app/shared/model/image.model';
 import { ImageService } from './image.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAdvertisment } from 'app/shared/model/advertisment.model';
+import { IAdvertisment, Advertisment } from 'app/shared/model/advertisment.model';
 import { AdvertismentService } from 'app/entities/advertisment/advertisment.service';
 
 @Component({
@@ -20,16 +20,17 @@ export class ImageUpdateComponent implements OnInit {
   isSaving = false;
   advertisments: IAdvertisment[] = [];
   createdDp: any;
+  ad: IAdvertisment = {};
 
   editForm = this.fb.group({
-    id: [],
+    // id: [],
     name: [],
-    created: [],
+    // created: [],
     img: [null, [Validators.required]],
     imgContentType: [],
     description: [],
-    url: [],
-    advertisment: [],
+    // url: [],
+    // advertisment: [],
   });
 
   constructor(
@@ -45,21 +46,28 @@ export class ImageUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ image }) => {
       this.updateForm(image);
-
-      this.advertismentService.query().subscribe((res: HttpResponse<IAdvertisment[]>) => (this.advertisments = res.body || []));
+      this.activatedRoute.paramMap.subscribe(param => {
+        const id: number = +param.get('id')!;
+        if (id) {
+          this.advertismentService.find(id).subscribe((res: HttpResponse<IAdvertisment>) => {
+            this.ad = res.body || new Advertisment();
+          });
+        }
+      });
+      // this.advertismentService.query().subscribe((res: HttpResponse<IAdvertisment[]>) => (this.advertisments = res.body || []));
     });
   }
 
   updateForm(image: IImage): void {
     this.editForm.patchValue({
-      id: image.id,
+      // id: image.id,
       name: image.name,
-      created: image.created,
+      // created: image.created,
       img: image.img,
       imgContentType: image.imgContentType,
       description: image.description,
-      url: image.url,
-      advertisment: image.advertisment,
+      // url: image.url,
+      // advertisment: image.advertisment,
     });
   }
 
@@ -106,14 +114,14 @@ export class ImageUpdateComponent implements OnInit {
   private createFromForm(): IImage {
     return {
       ...new Image(),
-      id: this.editForm.get(['id'])!.value,
+      // id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
-      created: this.editForm.get(['created'])!.value,
+      // created: this.editForm.get(['created'])!.value,
       imgContentType: this.editForm.get(['imgContentType'])!.value,
       img: this.editForm.get(['img'])!.value,
       description: this.editForm.get(['description'])!.value,
-      url: this.editForm.get(['url'])!.value,
-      advertisment: this.editForm.get(['advertisment'])!.value,
+      // url: this.editForm.get(['url'])!.value,
+      // advertisment: this.editForm.get(['advertisment'])!.value,
     };
   }
 
