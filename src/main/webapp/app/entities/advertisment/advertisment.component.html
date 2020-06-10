@@ -2,10 +2,11 @@
     <h2 id="page-heading">
         <span>Advertisments</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advertisment" [routerLink]="['/advertisment/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advertisment"
+            [routerLink]="['/advertisment/new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Advertisment
+                Create a new Advertisment
             </span>
         </button>
     </h2>
@@ -19,13 +20,20 @@
     </div>
     <div class="row row-cols-1 row-cols-md-2" *ngIf="advertisments && advertisments.length > 0">
         <div class="col mb-4" *ngFor="let advertisment of advertisments">
-          <div class="card">
-            <!-- <img src="" class="card-img-top" alt=""> -->
-            <div class="card-body">
-              <h5 class="card-title">{{ advertisment.reference }}</h5>
-              <p class="card-text">{{ advertisment.description }}</p>
+            <div class="card">
+                <img style="width:250px" src="https://storage.googleapis.com/download/storage/v1/b/rentalscayman-b4342.appspot.com/o/98a51f8969d647f3830edc9cdfc34046_16_17_18.jpg?generation=1591114620576069&alt=media"
+                    class="card-img-top" alt="image">
+                <div class="card-body">
+                    <h5 class="card-title"><a [routerLink]="['/advertisment', advertisment.id, 'view']">{{ advertisment.reference }}</a></h5>
+                    <p class="card-text">{{ advertisment.description }}</p>
+                    <button type="submit"
+                                    [routerLink]="['/advertisment', advertisment.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+                </div>
             </div>
-          </div>
         </div>
     </div>
     <!-- <div class="table-responsive" id="entities" *ngIf="advertisments && advertisments.length > 0">
@@ -99,13 +107,16 @@
         </table>
     </div> -->
 
-    <div *ngIf="advertisments && advertisments.length > 0">
+    <!--div *ngIf="advertisments && advertisments.length > 0">
         <div class="row justify-content-center">
             <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
         </div>
 
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage"
+                [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
         </div>
-    </div>
+    </div -->
+
+
 </div>

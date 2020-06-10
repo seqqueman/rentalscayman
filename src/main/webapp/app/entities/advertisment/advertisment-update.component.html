@@ -1,312 +1,280 @@
 <div class="row justify-content-center">
-  <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-advertisment-heading">Create or edit a Advertisment</h2>
+    <div class="col-10">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 class="text-left" id="jhi-advertisment-heading">Create or edit a Advertisment</h2>
 
-      <div>
-        <jhi-alert-error></jhi-alert-error>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
 
-        <div class="form-group" [hidden]="!editForm.get('id')!.value">
-          <label for="id">ID</label>
-          <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-        </div>
+                <div class="row">
+                    <div class="col-4 text-left">
+                        <h3>General Info</h3>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group col-6">
+                            <label class="form-control-label col-8" for="field_typeAd">Type Ad</label>
+                            <!-- <select class="form-control" name="typeAd" formControlName="typeAd" id="field_typeAd">
+                <option [ngValue]="null">Select one...</option>
+                <option *ngFor="let ads of eTypeAdvertis | keyvalue" value="{{ ads.key }}">{{ ads.value }}</option>
+              </select> -->
+                            <div class="btn-group btn-group-toggle" >
 
-        <div class="form-group">
-          <label class="form-control-label" for="field_description">Description</label>
-          <input type="text" class="form-control" name="description" id="field_description" formControlName="description" />
-          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('description')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
+                                <label class="btn btn-primary mr-5" *ngFor="let ads of eTypeAdvertis | keyvalue"
+                                [ngClass]="{active: editForm.controls.typeAd.value == ads.key}">
+                                    <input type="radio" name="typeAd" formControlName="typeAd"
+                                        value="{{ ads.key }}"  />{{ ads.value }}
+                                </label>
 
-        <!-- <div class="form-group"> -->
-        <!-- <label class="form-control-label" for="field_createAt">Create At</label> -->
-        <!-- <div class="input-group"> -->
-        <!-- <input id="field_createAt" type="text" class="form-control" name="createAt" ngbDatepicker #createAtDp="ngbDatepicker" formControlName="createAt"/> -->
-        <!-- <span class="input-group-append"> -->
-        <!-- <button type="button" class="btn btn-secondary" (click)="createAtDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button> -->
-        <!-- </span> -->
-        <!-- </div> -->
-        <!-- <div *ngIf="editForm.get('createAt')!.invalid && (editForm.get('createAt')!.dirty || editForm.get('createAt')!.touched)"> -->
-        <!-- <small class="form-text text-danger" -->
-        <!-- *ngIf="editForm.get('createAt')?.errors?.required"> -->
-        <!-- This field is required. -->
-        <!-- </small> -->
-        <!-- </div> -->
-        <!-- </div> -->
-        <!--  -->
-        <!-- <div class="form-group"> -->
-        <!-- <label class="form-control-label" for="field_modifiedAt">Modified At</label> -->
-        <!-- <div class="input-group"> -->
-        <!-- <input id="field_modifiedAt" type="text" class="form-control" name="modifiedAt" ngbDatepicker #modifiedAtDp="ngbDatepicker" formControlName="modifiedAt"/> -->
-        <!-- <span class="input-group-append"> -->
-        <!-- <button type="button" class="btn btn-secondary" (click)="modifiedAtDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button> -->
-        <!-- </span> -->
-        <!-- </div> -->
-        <!-- <div *ngIf="editForm.get('modifiedAt')!.invalid && (editForm.get('modifiedAt')!.dirty || editForm.get('modifiedAt')!.touched)"> -->
-        <!-- <small class="form-text text-danger" -->
-        <!-- *ngIf="editForm.get('modifiedAt')?.errors?.required"> -->
-        <!-- This field is required. -->
-        <!-- </small> -->
-        <!-- </div> -->
-        <!-- </div> -->
+                            </div>
+                            <div
+                                *ngIf="editForm.get('typeAd')!.invalid && (editForm.get('typeAd')!.dirty || editForm.get('typeAd')!.touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('typeAd')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="field_typeAd">Type Ad</label>
-          <select class="form-control" name="typeAd" formControlName="typeAd" id="field_typeAd">
-            <option [ngValue]="null">Select one...</option>
-            <option *ngFor="let ads of eTypeAdvertis | keyvalue" value="{{ads.key}}">{{ ads.value }}</option>
-          </select>
-          <div *ngIf="editForm.get('typeAd')!.invalid && (editForm.get('typeAd')!.dirty || editForm.get('typeAd')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('typeAd')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="field_propertyType">Property Type</label>
+                            <select class="form-control" name="propertyType" formControlName="propertyType"
+                                id="field_propertyType">
+                                <option value="null">Select one...</option>
+                                <option *ngFor="let type of ePropertyType | keyvalue" value="{{ type.key }}">
+                                    {{ type.value }}</option>
+                            </select>
+                            <div *ngIf="
+                  editForm.get('propertyType')!.invalid && (editForm.get('propertyType')!.dirty || editForm.get('propertyType')!.touched)
+                ">
+                                <small class="form-text text-danger"
+                                    *ngIf="editForm.get('propertyType')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="field_propertyType">Property Type</label>
-          <select class="form-control" name="propertyType" formControlName="propertyType" id="field_propertyType">
-            <option [ngValue]="null">Select one...</option>
-            <option *ngFor="let type of ePropertyType | keyvalue" value="{{type.key}}">{{ type.value }}</option>
-          </select>
-          <div
-            *ngIf="editForm.get('propertyType')!.invalid && (editForm.get('propertyType')!.dirty || editForm.get('propertyType')!.touched)"
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('propertyType')?.errors?.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="field_description">Description</label>
+                            <input type="text" class="form-control" name="description" id="field_description"
+                                formControlName="description" />
+                            <div
+                                *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="editForm.get('description')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
 
-        <!-- <div class="form-group"> -->
-        <!-- <label class="form-control-label" for="field_active">Active</label> -->
-        <!-- <input type="checkbox" class="form-control" name="active" id="field_active" -->
-        <!-- formControlName="active"/> -->
-        <!-- <div *ngIf="editForm.get('active')!.invalid && (editForm.get('active')!.dirty || editForm.get('active')!.touched)"> -->
-        <!-- <small class="form-text text-danger" -->
-        <!-- *ngIf="editForm.get('active')?.errors?.required"> -->
-        <!-- This field is required. -->
-        <!-- </small> -->
-        <!-- </div> -->
-        <!-- </div> -->
+                        <div class="form-group col-6">
+                            <label class="form-control-label" for="field_price">Price</label>
+                            <input type="number" class="form-control" name="price" id="field_price"
+                                formControlName="price" />
+                            <div
+                                *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
+                                <small class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required">
+                                    This field is required.
+                                </small>
+                                <small class="form-text text-danger" [hidden]="!editForm.get('price')?.errors?.number">
+                                    This field should be a number.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <h3>Address</h3>
+                    </div>
+                    <div class="col-8">
+                        <div formGroupName="address">
+                            <!-- <label class="form-control-label" for="field_address">Address</label> -->
 
-        <div class="form-group">
-          <label class="form-control-label" for="field_price">Price</label>
-          <input type="number" class="form-control" name="price" id="field_price" formControlName="price" />
-          <div *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required">
-              This field is required.
-            </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('price')?.errors?.number">
-              This field should be a number.
-            </small>
-          </div>
-        </div>
+                            <div class="form-group col-6">
+                                <label class="form-control-label" for="field_typeOfVia">Type Of Via</label>
+                                <select class="form-control" name="typeOfVia" formControlName="typeOfVia"
+                                    id="field_typeOfVia">
+                                    <option value="null">Select one...</option>
+                                    <option *ngFor="let via of eViaType | keyvalue" value="{{ via.key }}">
+                                        {{ via.value }}</option>
+                                </select>
+                                <div *ngIf="
+                    editForm.get('address')?.get('typeOfVia')!.invalid &&
+                    (editForm.get('address')?.get('typeOfVia')!.dirty || editForm.get('address')?.get('typeOfVia')!.touched)
+                  ">
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('address')?.get('typeOfVia')?.errors?.required">
+                                        This field is required.
+                                    </small>
+                                </div>
+                            </div>
 
-        <!-- <div class="form-group"> -->
-          <!-- <label class="form-control-label" for="field_reference">Reference</label> -->
-          <!-- <input type="text" class="form-control" name="reference" id="field_reference" formControlName="reference" /> -->
-          <!-- <div *ngIf="editForm.get('reference')!.invalid && (editForm.get('reference')!.dirty || editForm.get('reference')!.touched)"> -->
-            <!-- <small class="form-text text-danger" *ngIf="editForm.get('reference')?.errors?.required"> -->
-              <!-- This field is required. -->
-            <!-- </small> -->
-          <!-- </div> -->
-        <!-- </div> -->
+                            <div class="form-group col-6">
+                                <label class="form-control-label" for="field_number">Number</label>
+                                <input type="text" class="form-control" name="number" id="field_number"
+                                    formControlName="number" />
+                                <div *ngIf="
+                    editForm.get('address')?.get('number')!.invalid &&
+                    (editForm.get('address')?.get('number')!.dirty || editForm.get('address')?.get('number')!.touched)
+                  ">
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('address')?.get('number')?.errors?.required">
+                                        This field is required.
+                                    </small>
+                                </div>
+                            </div>
 
-        <div class="form-group" formGroupName="address">
-          <label class="form-control-label" for="field_address">Address</label>
-          <!-- <select class="form-control" id="field_address" name="address" formControlName="address"> -->
-          <!-- <option [ngValue]="null"></option> -->
-          <!-- <option [ngValue]="addressOption.id === editForm.get('address')!.value?.id ? editForm.get('address')!.value : addressOption" *ngFor="let addressOption of addresses; trackBy: trackById">{{ addressOption.id }}</option> -->
-          <!-- </select> -->
+                            <div class="form-group col-6">
+                                <label class="form-control-label" for="field_zipCode">Zip Code</label>
+                                <input type="text" class="form-control" name="zipCode" id="field_zipCode"
+                                    formControlName="zipCode" />
+                                <div *ngIf="
+                    editForm.get('address')?.get('zipCode')!.invalid &&
+                    (editForm.get('address')?.get('zipCode')!.dirty || editForm.get('address')?.get('zipCode')!.touched)
+                  ">
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('address')?.get('zipCode')?.errors?.required">
+                                        This field is required.
+                                    </small>
+                                </div>
+                            </div>
 
-          <div class="form-group">
-            <label class="form-control-label" for="field_typeOfVia">Type Of Via</label>
-            <select class="form-control" name="typeOfVia" formControlName="typeOfVia" id="field_typeOfVia">
-              <option [ngValue]="null">Select one...</option>
-              <option *ngFor="let via of eViaType | keyvalue" value="{{via.key}}">{{ via.value }}</option>
-            </select>
-            <div
-              *ngIf="
-                editForm.get('address')?.get('typeOfVia')!.invalid &&
-                (editForm.get('address')?.get('typeOfVia')!.dirty || editForm.get('address')?.get('typeOfVia')!.touched)
-              "
-            >
-              <small class="form-text text-danger" *ngIf="editForm.get('address')?.get('typeOfVia')?.errors?.required">
-                This field is required.
-              </small>
+                            <div class="form-group col-6">
+                                <label class="form-control-label" for="field_areaDisctrict">Disctrict Area</label>
+                                <select class="form-control" name="areaDisctrict" formControlName="areaDisctrict"
+                                    id="field_areaDisctrict">
+                                    <option value="null">Select one...</option>
+                                    <option *ngFor="let area of eAreaDistrict | keyvalue" value="{{ area.key }}">
+                                        {{ area.value }}</option>
+                                </select>
+                                <div *ngIf="
+                    editForm.get('address')?.get('areaDisctrict')!.invalid &&
+                    (editForm.get('address')?.get('areaDisctrict')!.dirty || editForm.get('address')?.get('areaDisctrict')!.touched)
+                  ">
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('address')?.get('areaDisctrict')?.errors?.required">
+                                        This field is required.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <h3>Features</h3>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group" formGroupName="feature">
+                            <!-- <label class="form-control-label" for="field_feature">Feature</label> -->
+
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_numberBedrooms"><i
+                                        class="fal fa-bed-alt"></i>Number Bedrooms</label>
+                                <input type="number" class="form-control col-6" name="numberBedrooms"
+                                    id="field_numberBedrooms" formControlName="numberBedrooms" />
+                                <div *ngIf="
+                    editForm.get('feature')?.get('numberBedrooms')!.invalid &&
+                    (editForm.get('feature')?.get('numberBedrooms')!.dirty || editForm.get('feature')?.get('numberBedrooms')!.touched)
+                  ">
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('feature')?.get('numberBedrooms')?.errors?.required">
+                                        This field is required.
+                                    </small>
+                                    <small class="form-text text-danger"
+                                        [hidden]="!editForm.get('feature')?.get('numberBedrooms')?.errors?.number">
+                                        This field should be a number.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-control-label" for="field_numberBathroom">Number Bathroom</label>
+                                <input type="number" class="form-control col-6" name="numberBathroom"
+                                    id="field_numberBathroom" formControlName="numberBathroom" maxlength="6" />
+                                <div *ngIf="
+                    editForm.get('feature')?.get('numberBathroom')!.invalid &&
+                    (editForm.get('feature')?.get('numberBathroom')!.dirty || editForm.get('feature')?.get('numberBathroom')!.touched)
+                  ">
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('feature')?.get('numberBathroom')?.errors?.required">
+                                        This field is required.
+                                    </small>
+                                    <small class="form-text text-danger"
+                                        [hidden]="!editForm.get('feature')?.get('numberBathroom')?.errors?.number">
+                                        This field should be a number.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="form-control-label" for="field_fullKitchen">Full Kitchen</label>
+                                    <input type="checkbox" class="form-control" name="fullKitchen"
+                                        id="field_fullKitchen" formControlName="fullKitchen" />
+                                    <div *ngIf="
+                      editForm.get('feature')?.get('fullKitchen')!.invalid &&
+                      (editForm.get('feature')?.get('fullKitchen')!.dirty || editForm.get('feature')?.get('fullKitchen')!.touched)
+                    ">
+                                        <small class="form-text text-danger"
+                                            *ngIf="editForm.get('feature')?.get('fullKitchen')?.errors?.required">
+                                            This field is required.
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label class="form-control-label" for="field_elevator">Elevator</label>
+                                    <input type="checkbox" class="form-control" name="elevator" id="field_elevator"
+                                        formControlName="elevator" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="form-control-label" for="field_parking">Parking</label>
+                                    <input type="checkbox" class="form-control" name="parking" id="field_parking"
+                                        formControlName="parking" />
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label class="form-control-label" for="field_airConditionair">Air
+                                        Conditionair</label>
+                                    <input type="checkbox" class="form-control" name="airConditionair"
+                                        id="field_airConditionair" formControlName="airConditionair" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label class="form-control-label" for="field_backyard">Backyard</label>
+                                    <input type="checkbox" class="form-control" name="backyard" id="field_backyard"
+                                        formControlName="backyard" />
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label class="form-control-label" for="field_pool">Pool</label>
+                                    <input type="checkbox" class="form-control" name="pool" id="field_pool"
+                                        formControlName="pool" />
+                                </div>
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="form-control-label" for="field_m2">M 2</label>
+                                <input type="number" class="form-control" name="m2" id="field_m2"
+                                    formControlName="m2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-control-label" for="field_number">Number</label>
-            <input type="text" class="form-control" name="number" id="field_number" formControlName="number" />
-            <div
-              *ngIf="
-                editForm.get('address')?.get('number')!.invalid &&
-                (editForm.get('address')?.get('number')!.dirty || editForm.get('address')?.get('number')!.touched)
-              "
-            >
-              <small class="form-text text-danger" *ngIf="editForm.get('address')?.get('number')?.errors?.required">
-                This field is required.
-              </small>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                    class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_zipCode">Zip Code</label>
-            <input type="text" class="form-control" name="zipCode" id="field_zipCode" formControlName="zipCode" />
-            <div
-              *ngIf="
-                editForm.get('address')?.get('zipCode')!.invalid &&
-                (editForm.get('address')?.get('zipCode')!.dirty || editForm.get('address')?.get('zipCode')!.touched)
-              "
-            >
-              <small class="form-text text-danger" *ngIf="editForm.get('address')?.get('zipCode')?.errors?.required">
-                This field is required.
-              </small>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_areaDisctrict">Area Disctrict</label>
-            <select class="form-control" name="areaDisctrict" formControlName="areaDisctrict" id="field_areaDisctrict">
-              <option [ngValue]="null">Select one...</option>
-              <option *ngFor="let area of eAreaDistrict | keyvalue" value="{{area.key}}">{{ area.value }}</option>
-            </select>
-            <div
-              *ngIf="
-                editForm.get('address')?.get('areaDisctrict')!.invalid &&
-                (editForm.get('address')?.get('areaDisctrict')!.dirty || editForm.get('address')?.get('areaDisctrict')!.touched)
-              "
-            >
-              <small class="form-text text-danger" *ngIf="editForm.get('address')?.get('areaDisctrict')?.errors?.required">
-                This field is required.
-              </small>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group" formGroupName="feature">
-          <label class="form-control-label" for="field_feature">Feature</label>
-          <!-- <select class="form-control" id="field_feature" name="feature" formControlName="feature"> -->
-          <!-- <option [ngValue]="null"></option> -->
-          <!-- <option [ngValue]="featureOption.id === editForm.get('feature')!.value?.id ? editForm.get('feature')!.value : featureOption" *ngFor="let featureOption of features; trackBy: trackById">{{ featureOption.id }}</option> -->
-          <!-- </select> -->
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_numberBedrooms">Number Bedrooms</label>
-            <input type="number" class="form-control" name="numberBedrooms" id="field_numberBedrooms" formControlName="numberBedrooms" />
-            <div
-              *ngIf="
-                editForm.get('feature')?.get('numberBedrooms')!.invalid &&
-                (editForm.get('feature')?.get('numberBedrooms')!.dirty || editForm.get('feature')?.get('numberBedrooms')!.touched)
-              "
-            >
-              <small class="form-text text-danger" *ngIf="editForm.get('feature')?.get('numberBedrooms')?.errors?.required">
-                This field is required.
-              </small>
-              <small class="form-text text-danger" [hidden]="!editForm.get('feature')?.get('numberBedrooms')?.errors?.number">
-                This field should be a number.
-              </small>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_numberBathroom">Number Bathroom</label>
-            <input type="number" class="form-control" name="numberBathroom" id="field_numberBathroom" formControlName="numberBathroom" />
-            <div
-              *ngIf="
-                editForm.get('feature')?.get('numberBathroom')!.invalid &&
-                (editForm.get('feature')?.get('numberBathroom')!.dirty || editForm.get('feature')?.get('numberBathroom')!.touched)
-              "
-            >
-              <small class="form-text text-danger" *ngIf="editForm.get('feature')?.get('numberBathroom')?.errors?.required">
-                This field is required.
-              </small>
-              <small class="form-text text-danger" [hidden]="!editForm.get('feature')?.get('numberBathroom')?.errors?.number">
-                This field should be a number.
-              </small>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_fullKitchen">Full Kitchen</label>
-            <input type="checkbox" class="form-control" name="fullKitchen" id="field_fullKitchen" formControlName="fullKitchen" />
-            <div
-              *ngIf="
-                editForm.get('feature')?.get('fullKitchen')!.invalid &&
-                (editForm.get('feature')?.get('fullKitchen')!.dirty || editForm.get('feature')?.get('fullKitchen')!.touched)
-              "
-            >
-              <small class="form-text text-danger" *ngIf="editForm.get('feature')?.get('fullKitchen')?.errors?.required">
-                This field is required.
-              </small>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_elevator">Elevator</label>
-            <input type="checkbox" class="form-control" name="elevator" id="field_elevator" formControlName="elevator" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_parking">Parking</label>
-            <input type="checkbox" class="form-control" name="parking" id="field_parking" formControlName="parking" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_airConditionair">Air Conditionair</label>
-            <input
-              type="checkbox"
-              class="form-control"
-              name="airConditionair"
-              id="field_airConditionair"
-              formControlName="airConditionair"
-            />
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_backyard">Backyard</label>
-            <input type="checkbox" class="form-control" name="backyard" id="field_backyard" formControlName="backyard" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_pool">Pool</label>
-            <input type="checkbox" class="form-control" name="pool" id="field_pool" formControlName="pool" />
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="field_m2">M 2</label>
-            <input type="number" class="form-control" name="m2" id="field_m2" formControlName="m2" />
-          </div>
-        </div>
-
-        <!-- <div class="form-group">
-          <label class="form-control-label" for="field_user">User</label>
-          <select class="form-control" id="field_user" name="user" formControlName="user">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="userOption.id === editForm.get('user')!.value?.id ? editForm.get('user')!.value : userOption"
-              *ngFor="let userOption of users; trackBy: trackById"
-              >{{ userOption.login }}</option
-            >
-          </select>
-        </div> -->
-      </div>
-
-      <div>
-        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-        </button>
-
-        <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-        </button>
-      </div>
-    </form>
-  </div>
+        </form>
+    </div>
 </div>

@@ -18,6 +18,7 @@ logging:
     ROOT: DEBUG
     io.github.jhipster: DEBUG
     com.rentalscayman: DEBUG
+    javax.management.mbeanserver: INFO
 
 spring:
   profiles:
@@ -123,6 +124,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
-# gcpmine:
-# bucket-name: images-for-cayman
+application:
+  gcpmine:
+    bucket-name: rentalscayman-b4342.appspot.com

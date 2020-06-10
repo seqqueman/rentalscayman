@@ -1,21 +1,38 @@
 package com.rentalscayman.web.rest;
 
+import com.google.cloud.storage.Blob;
+import com.rentalscayman.domain.Advertisment;
 import com.rentalscayman.domain.Image;
 import com.rentalscayman.repository.ImageRepository;
+import com.rentalscayman.service.AdvertismentService;
+import com.rentalscayman.service.IUploadFileService;
 import com.rentalscayman.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * REST controller for managing {@link com.rentalscayman.domain.Image}.
@@ -33,8 +50,14 @@ public class ImageResource {
 
     private final ImageRepository imageRepository;
 
-    public ImageResource(ImageRepository imageRepository) {
+    private final IUploadFileService uploadService;
+
+    @Autowired
+    private AdvertismentService advertismentService;
+
+    public ImageResource(ImageRepository imageRepository, IUploadFileService fileService) {
         this.imageRepository = imageRepository;
+        this.uploadService = fileService;
     }
 
     /**
@@ -55,6 +78,42 @@ public class ImageResource {
             .created(new URI("/api/images/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/images/upload")
+    //	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+    public ResponseEntity<?> uploadImage(
+        @RequestParam("fileImage") MultipartFile fileImage,
+        @RequestParam("id") Long id,
+        @RequestParam("description") String description
+    )
+        throws Exception {
+        Map<String, Object> response = new HashMap<>();
+        Advertisment advert = advertismentService.findOne(id).orElseThrow(() -> new Exception("Problem adding image to advertisment"));
+
+        //		Cliente cliente = clienteService.findByIdCliente(id);
+        if (!fileImage.isEmpty()) {
+            Blob blobPhoto = null;
+            try {
+                blobPhoto = uploadService.copyImage(fileImage);
+            } catch (Exception ex) {
+                response.put("mensaje", "Error while uploading image ");
+                response.put("Error", ex.getMessage().concat(": ").concat(ex.getCause().getMessage()));
+                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            Image photo = new Image();
+            photo.setAdvertisment(advert);
+            photo.setDescription(description);
+            photo.setUrl(blobPhoto.getMediaLink());
+            photo.setName(blobPhoto.getName());
+
+            imageRepository.saveAndFlush(photo);
+
+            response.put("mensaje", "Imagen subida correctamente");
+        }
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
     /**
