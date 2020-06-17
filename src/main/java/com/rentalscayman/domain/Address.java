@@ -28,8 +28,8 @@ public class Address implements Serializable {
     private ViaType typeOfVia;
 
     @NotNull
-    @Column(name = "number", nullable = false)
-    private String number;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @NotNull
     @Column(name = "zip_code", nullable = false)
@@ -68,17 +68,17 @@ public class Address implements Serializable {
         this.typeOfVia = typeOfVia;
     }
 
-    public String getNumber() {
-        return number;
+    public String getName() {
+        return name;
     }
 
-    public Address number(String number) {
-        this.number = number;
+    public Address name(String name) {
+        this.name = name;
         return this;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getZipCode() {
@@ -157,7 +157,7 @@ public class Address implements Serializable {
         return "Address{" +
             "id=" + getId() +
             ", typeOfVia='" + getTypeOfVia() + "'" +
-            ", number='" + getNumber() + "'" +
+            ", number='" + getName() + "'" +
             ", zipCode='" + getZipCode() + "'" +
             ", areaDisctrict='" + getAreaDisctrict() + "'" +
             ", lat=" + getLat() +

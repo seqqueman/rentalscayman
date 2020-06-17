@@ -10,7 +10,7 @@
       ]
     },
     {
-      "fieldName": "number",
+      "fieldName": "name",
       "fieldType": "String",
       "fieldValidateRules": [
         "required"

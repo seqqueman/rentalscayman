@@ -62,7 +62,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       // reference: [''],
       address: this.fb.group({
         typeOfVia: [null, [Validators.required]],
-        number: [null, [Validators.required]],
+        name: [null, [Validators.required]],
         zipCode: [null, [Validators.required]],
         areaDisctrict: [null, [Validators.required]],
       }),
@@ -151,7 +151,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       // reference: advertisment.reference,
       address: {
         typeOfVia: this.isEdition ? advertisment.address?.typeOfVia : null,
-        number: advertisment.address?.number,
+        name: advertisment.address?.name,
         zipCode: advertisment.address?.zipCode,
         areaDisctrict: this.isEdition ? advertisment.address?.areaDisctrict : null,
       },
@@ -199,7 +199,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       // reference: this.editForm.get(['reference'])!.value,
       address: {
         typeOfVia: this.editForm.get(['address', 'typeOfVia'])!.value,
-        number: this.editForm.get(['address', 'number'])!.value,
+        name: this.editForm.get(['address', 'name'])!.value,
         zipCode: this.editForm.get(['address', 'zipCode'])!.value,
         areaDisctrict: this.editForm.get(['address', 'areaDisctrict'])!.value,
       },

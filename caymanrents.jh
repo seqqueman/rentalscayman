@@ -1,6 +1,6 @@
 entity Address {
     typeOfVia ViaType required
-    number String required
+    name String required
     zipCode String required
     areaDisctrict AreaDisctrict required
     lat BigDecimal

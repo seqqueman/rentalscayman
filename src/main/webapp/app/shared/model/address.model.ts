@@ -4,7 +4,7 @@ import { AreaDisctrict } from 'app/shared/model/enumerations/area-disctrict.mode
 export interface IAddress {
   id?: number;
   typeOfVia?: ViaType;
-  number?: string;
+  name?: string;
   zipCode?: string;
   areaDisctrict?: AreaDisctrict;
   lat?: number;
@@ -15,7 +15,7 @@ export class Address implements IAddress {
   constructor(
     public id?: number,
     public typeOfVia?: ViaType,
-    public number?: string,
+    public name?: string,
     public zipCode?: string,
     public areaDisctrict?: AreaDisctrict,
     public lat?: number,

@@ -19,6 +19,7 @@ logging:
     io.github.jhipster: DEBUG
     com.rentalscayman: DEBUG
     javax.management.mbeanserver: INFO
+    com.fasterxml.jackson.module.afterburner.util: ERROR
 
 spring:
   profiles:
@@ -124,6 +125,3 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
-  gcpmine:
-    bucket-name: rentalscayman-b4342.appspot.com

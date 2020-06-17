@@ -18,10 +18,14 @@
     <div class="alert alert-warning" id="no-result" *ngIf="advertisments?.length === 0">
         <span>No advertisments found</span>
     </div>
-    <div class="row row-cols-1 row-cols-md-2" *ngIf="advertisments && advertisments.length > 0">
-        <div class="col mb-4" *ngFor="let advertisment of advertisments">
-            <div class="card">
-                <img style="width:250px" src="https://storage.googleapis.com/download/storage/v1/b/rentalscayman-b4342.appspot.com/o/98a51f8969d647f3830edc9cdfc34046_16_17_18.jpg?generation=1591114620576069&alt=media"
+
+    <!-- class="row row-cols-1 row-cols-md-2"  -->
+    <div class= "card-columns" *ngIf="advertisments && advertisments.length > 0" >
+        <!-- <div class="col mb-4" *ngFor="let advertisment of advertisments"> -->
+
+
+            <!-- <div class="card" *ngFor="let advertisment of advertisments">
+                <img style="max-width:250px" src="https://storage.googleapis.com/download/storage/v1/b/rentalscayman-b4342.appspot.com/o/98a51f8969d647f3830edc9cdfc34046_16_17_18.jpg?generation=1591114620576069&alt=media"
                     class="card-img-top" alt="image">
                 <div class="card-body">
                     <h5 class="card-title"><a [routerLink]="['/advertisment', advertisment.id, 'view']">{{ advertisment.reference }}</a></h5>
@@ -33,8 +37,12 @@
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
                 </div>
-            </div>
-        </div>
+            </div> -->
+
+            <jhi-card-ad [advertisment]="advertisment" *ngFor="let advertisment of advertisments"></jhi-card-ad>
+
+
+        <!-- </div> -->
     </div>
     <!-- <div class="table-responsive" id="entities" *ngIf="advertisments && advertisments.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">

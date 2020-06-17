@@ -28,12 +28,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_number">Number</label>
-                    <input type="text" class="form-control" name="number" id="field_number"
-                           formControlName="number"/>
-                    <div *ngIf="editForm.get('number')!.invalid && (editForm.get('number')!.dirty || editForm.get('number')!.touched)">
+                    <label class="form-control-label" for="field_number">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('number')?.errors?.required">
+                               *ngIf="editForm.get('name')?.errors?.required">
                         This field is required.
                         </small>
                     </div>

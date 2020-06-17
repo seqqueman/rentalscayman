@@ -170,4 +170,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  gcpmine:
+    bucket-name: rentalscayman-b4342.appspot.com

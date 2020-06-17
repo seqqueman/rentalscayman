@@ -50,10 +50,10 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.ascending = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-      this.ngbPaginationPage = data.pagingParams.page;
+      this.page = data.pagingParams?.page ? data.pagingParams.page : 1;
+      this.ascending = data.pagingParams?.ascending ? data.pagingParams.ascending : true;
+      this.predicate = data.pagingParams?.predicate ? data.pagingParams.predicate : 'id';
+      this.ngbPaginationPage = data.pagingParams?.page ? data.pagingParams.page : 1;
       this.loadPage();
     });
     this.handleBackNavigation();
@@ -109,13 +109,13 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   protected onSuccess(data: IAdvertisment[] | null, headers: HttpHeaders, page: number): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
-    this.router.navigate(['/advertisment'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
-      },
-    });
+    // this.router.navigate(['/advertisment'], {
+    // queryParams: {
+    // page: this.page,
+    // size: this.itemsPerPage,
+    // sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+    // },
+    // });
     this.advertisments = data || [];
   }
 

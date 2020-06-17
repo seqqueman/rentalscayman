@@ -24,7 +24,7 @@
                 <tr>
                     <th scope="col" ><span>ID</span></th>
                     <th scope="col" ><span>Type Of Via</span></th>
-                    <th scope="col" ><span>Number</span></th>
+                    <th scope="col" ><span>Name</span></th>
                     <th scope="col" ><span>Zip Code</span></th>
                     <th scope="col" ><span>Area Disctrict</span></th>
                     <th scope="col" ><span>Lat</span></th>
@@ -36,7 +36,7 @@
                 <tr *ngFor="let address of addresses ;trackBy: trackId">
                     <td><a [routerLink]="['/address', address.id, 'view']">{{ address.id }}</a></td>
                     <td>{{ address.typeOfVia }}</td>
-                    <td>{{ address.number }}</td>
+                    <td>{{ address.name }}</td>
                     <td>{{ address.zipCode }}</td>
                     <td>{{ address.areaDisctrict }}</td>
                     <td>{{ address.lat }}</td>

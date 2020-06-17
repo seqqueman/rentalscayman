@@ -1,0 +1,15 @@
+<div class="card">
+    <img style="max-width:250px" src="https://storage.googleapis.com/download/storage/v1/b/rentalscayman-b4342.appspot.com/o/98a51f8969d647f3830edc9cdfc34046_16_17_18.jpg?generation=1591114620576069&alt=media"
+        class="card-img-top" alt="image">
+    <div class="card-body">
+        <h5 class="card-title"><a [routerLink]="['/advertisment', advertisment.id, 'view']">{{ advertisment.reference }}</a></h5>
+        <p class="card-text">{{ advertisment.description }}</p>
+        <h5 class="card-title">{{ advertisment.price | currency: 'KYD':'symbol-narrow'}}</h5>
+        <button type="submit"
+                        [routerLink]="['/advertisment', advertisment.id, 'edit']"
+                        class="btn btn-primary btn-sm">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Edit</span>
+                </button>
+    </div>
+</div>
