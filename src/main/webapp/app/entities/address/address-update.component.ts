@@ -18,7 +18,7 @@ export class AddressUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     typeOfVia: [null, [Validators.required]],
-    number: [null, [Validators.required]],
+    name: [null, [Validators.required]],
     zipCode: [null, [Validators.required]],
     areaDisctrict: [null, [Validators.required]],
     lat: [],
@@ -37,7 +37,7 @@ export class AddressUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: address.id,
       typeOfVia: address.typeOfVia,
-      number: address.number,
+      name: address.name,
       zipCode: address.zipCode,
       areaDisctrict: address.areaDisctrict,
       lat: address.lat,
@@ -64,7 +64,7 @@ export class AddressUpdateComponent implements OnInit {
       ...new Address(),
       id: this.editForm.get(['id'])!.value,
       typeOfVia: this.editForm.get(['typeOfVia'])!.value,
-      number: this.editForm.get(['number'])!.value,
+      name: this.editForm.get(['name'])!.value,
       zipCode: this.editForm.get(['zipCode'])!.value,
       areaDisctrict: this.editForm.get(['areaDisctrict'])!.value,
       lat: this.editForm.get(['lat'])!.value,

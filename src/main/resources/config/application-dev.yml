@@ -18,6 +18,8 @@ logging:
     ROOT: DEBUG
     io.github.jhipster: DEBUG
     com.rentalscayman: DEBUG
+    javax.management.mbeanserver: INFO
+    com.fasterxml.jackson.module.afterburner.util: ERROR
 
 spring:
   profiles:
@@ -123,6 +125,3 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
-# gcpmine:
-# bucket-name: images-for-cayman

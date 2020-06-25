@@ -33,8 +33,8 @@ public class AddressResourceIT {
     private static final ViaType DEFAULT_TYPE_OF_VIA = ViaType.STREET;
     private static final ViaType UPDATED_TYPE_OF_VIA = ViaType.SQUARE;
 
-    private static final String DEFAULT_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_NUMBER = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_ZIP_CODE = "AAAAAAAAAA";
     private static final String UPDATED_ZIP_CODE = "BBBBBBBBBB";
@@ -68,7 +68,7 @@ public class AddressResourceIT {
     public static Address createEntity(EntityManager em) {
         Address address = new Address()
             .typeOfVia(DEFAULT_TYPE_OF_VIA)
-            .number(DEFAULT_NUMBER)
+            .name(DEFAULT_NAME)
             .zipCode(DEFAULT_ZIP_CODE)
             .areaDisctrict(DEFAULT_AREA_DISCTRICT)
             .lat(DEFAULT_LAT)
@@ -85,7 +85,7 @@ public class AddressResourceIT {
     public static Address createUpdatedEntity(EntityManager em) {
         Address address = new Address()
             .typeOfVia(UPDATED_TYPE_OF_VIA)
-            .number(UPDATED_NUMBER)
+            .name(UPDATED_NAME)
             .zipCode(UPDATED_ZIP_CODE)
             .areaDisctrict(UPDATED_AREA_DISCTRICT)
             .lat(UPDATED_LAT)
@@ -112,7 +112,7 @@ public class AddressResourceIT {
         assertThat(addressList).hasSize(databaseSizeBeforeCreate + 1);
         Address testAddress = addressList.get(addressList.size() - 1);
         assertThat(testAddress.getTypeOfVia()).isEqualTo(DEFAULT_TYPE_OF_VIA);
-        assertThat(testAddress.getNumber()).isEqualTo(DEFAULT_NUMBER);
+        assertThat(testAddress.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testAddress.getZipCode()).isEqualTo(DEFAULT_ZIP_CODE);
         assertThat(testAddress.getAreaDisctrict()).isEqualTo(DEFAULT_AREA_DISCTRICT);
         assertThat(testAddress.getLat()).isEqualTo(DEFAULT_LAT);
@@ -156,10 +156,10 @@ public class AddressResourceIT {
 
     @Test
     @Transactional
-    public void checkNumberIsRequired() throws Exception {
+    public void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = addressRepository.findAll().size();
         // set the field null
-        address.setNumber(null);
+        address.setName(null);
 
         // Create the Address, which fails.
 
@@ -218,7 +218,7 @@ public class AddressResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(address.getId().intValue())))
             .andExpect(jsonPath("$.[*].typeOfVia").value(hasItem(DEFAULT_TYPE_OF_VIA.toString())))
-            .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].zipCode").value(hasItem(DEFAULT_ZIP_CODE)))
             .andExpect(jsonPath("$.[*].areaDisctrict").value(hasItem(DEFAULT_AREA_DISCTRICT.toString())))
             .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.intValue())))
@@ -238,7 +238,7 @@ public class AddressResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(address.getId().intValue()))
             .andExpect(jsonPath("$.typeOfVia").value(DEFAULT_TYPE_OF_VIA.toString()))
-            .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.zipCode").value(DEFAULT_ZIP_CODE))
             .andExpect(jsonPath("$.areaDisctrict").value(DEFAULT_AREA_DISCTRICT.toString()))
             .andExpect(jsonPath("$.lat").value(DEFAULT_LAT.intValue()))
@@ -266,7 +266,7 @@ public class AddressResourceIT {
         em.detach(updatedAddress);
         updatedAddress
             .typeOfVia(UPDATED_TYPE_OF_VIA)
-            .number(UPDATED_NUMBER)
+            .name(UPDATED_NAME)
             .zipCode(UPDATED_ZIP_CODE)
             .areaDisctrict(UPDATED_AREA_DISCTRICT)
             .lat(UPDATED_LAT)
@@ -283,7 +283,7 @@ public class AddressResourceIT {
         assertThat(addressList).hasSize(databaseSizeBeforeUpdate);
         Address testAddress = addressList.get(addressList.size() - 1);
         assertThat(testAddress.getTypeOfVia()).isEqualTo(UPDATED_TYPE_OF_VIA);
-        assertThat(testAddress.getNumber()).isEqualTo(UPDATED_NUMBER);
+        assertThat(testAddress.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testAddress.getZipCode()).isEqualTo(UPDATED_ZIP_CODE);
         assertThat(testAddress.getAreaDisctrict()).isEqualTo(UPDATED_AREA_DISCTRICT);
         assertThat(testAddress.getLat()).isEqualTo(UPDATED_LAT);

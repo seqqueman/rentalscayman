@@ -4,6 +4,7 @@ import com.rentalscayman.domain.Advertisment;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 /**
  * Service Interface for managing {@link Advertisment}.
@@ -39,4 +40,6 @@ public interface AdvertismentService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<Advertisment> findAdsByFilters(Specification<Advertisment> specs, Pageable pages);
 }

@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 // import { map } from 'rxjs/operators';
@@ -39,6 +40,7 @@ export class AdvertismentUpdateComponent implements OnInit {
   eViaType = ViaType;
 
   editForm: FormGroup;
+  isEdition = false;
 
   constructor(
     protected advertismentService: AdvertismentService,
@@ -53,14 +55,14 @@ export class AdvertismentUpdateComponent implements OnInit {
       description: [null, [Validators.required]],
       // createAt: [null, [Validators.required]],
       // modifiedAt: [null, [Validators.required]],
-      typeAd: [null, [Validators.required]],
+      typeAd: new FormControl(this.eTypeAdvertis.FOR_RENT, Validators.required),
       propertyType: [null, [Validators.required]],
       // active: [null, [Validators.required]],
       price: [null, [Validators.required]],
       // reference: [''],
       address: this.fb.group({
         typeOfVia: [null, [Validators.required]],
-        number: [null, [Validators.required]],
+        name: [null, [Validators.required]],
         zipCode: [null, [Validators.required]],
         areaDisctrict: [null, [Validators.required]],
       }),
@@ -81,6 +83,10 @@ export class AdvertismentUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ advertisment }) => {
+      if (advertisment) {
+        this.isEdition = true;
+      }
+
       this.updateForm(advertisment);
 
       // this.addressService
@@ -129,6 +135,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       //
       // this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
+    this.crearListeners();
   }
 
   updateForm(advertisment: IAdvertisment): void {
@@ -137,16 +144,16 @@ export class AdvertismentUpdateComponent implements OnInit {
       description: advertisment.description,
       // createAt: advertisment.createAt,
       // modifiedAt: advertisment.modifiedAt,
-      typeAd: advertisment.typeAd,
-      propertyType: advertisment.propertyType,
+      typeAd: this.isEdition ? advertisment.typeAd : this.eTypeAdvertis.FOR_RENT,
+      propertyType: this.isEdition ? advertisment.propertyType : null,
       // active: advertisment.active,
       price: advertisment.price,
       // reference: advertisment.reference,
       address: {
-        typeOfVia: advertisment.address?.typeOfVia,
-        number: advertisment.address?.number,
+        typeOfVia: this.isEdition ? advertisment.address?.typeOfVia : null,
+        name: advertisment.address?.name,
         zipCode: advertisment.address?.zipCode,
-        areaDisctrict: advertisment.address?.areaDisctrict,
+        areaDisctrict: this.isEdition ? advertisment.address?.areaDisctrict : null,
       },
       feature: {
         numberBedrooms: advertisment.feature?.numberBedrooms,
@@ -179,7 +186,7 @@ export class AdvertismentUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IAdvertisment {
-    return {
+    const ad = {
       ...new Advertisment(),
       id: this.editForm.get(['id'])!.value,
       description: this.editForm.get(['description'])!.value,
@@ -192,7 +199,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       // reference: this.editForm.get(['reference'])!.value,
       address: {
         typeOfVia: this.editForm.get(['address', 'typeOfVia'])!.value,
-        number: this.editForm.get(['address', 'number'])!.value,
+        name: this.editForm.get(['address', 'name'])!.value,
         zipCode: this.editForm.get(['address', 'zipCode'])!.value,
         areaDisctrict: this.editForm.get(['address', 'areaDisctrict'])!.value,
       },
@@ -208,8 +215,10 @@ export class AdvertismentUpdateComponent implements OnInit {
         m2: this.editForm.get(['feature', 'm2'])!.value,
       },
       // this.editForm.get(['feature'])!.value,
-      user: this.editForm.get(['user'])!.value,
+      // user: this.editForm.get(['user'])!.value,
     };
+    console.log(ad);
+    return ad;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IAdvertisment>>): void {
@@ -230,5 +239,14 @@ export class AdvertismentUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  crearListeners(): void {
+    this.editForm.valueChanges.subscribe(valor => {
+      console.log(valor);
+    });
+
+    // this.forma.statusChanges.subscribe( status => console.log({ status }));
+    // this.forma.get('nombre').valueChanges.subscribe( console.log );
   }
 }

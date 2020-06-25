@@ -47,7 +47,7 @@ export const advertismentRoute: Routes = [
       defaultSort: 'id,asc',
       pageTitle: 'Advertisments',
     },
-    canActivate: [UserRouteAccessService],
+    // canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
@@ -57,9 +57,9 @@ export const advertismentRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'Advertisments',
+      pageTitle: 'Ad Details',
     },
-    canActivate: [UserRouteAccessService],
+    // canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
@@ -69,7 +69,7 @@ export const advertismentRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'Advertisments',
+      pageTitle: 'New Ad',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -81,7 +81,7 @@ export const advertismentRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'Advertisments',
+      pageTitle: 'Edit your ad',
     },
     canActivate: [UserRouteAccessService],
   },

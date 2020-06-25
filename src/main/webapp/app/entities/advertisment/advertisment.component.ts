@@ -24,6 +24,7 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  querySearch = '';
 
   constructor(
     protected advertismentService: AdvertismentService,
@@ -41,6 +42,7 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
+        search: this.querySearch,
       })
       .subscribe(
         (res: HttpResponse<IAdvertisment[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
@@ -49,11 +51,14 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe(queryParams => {
+      this.querySearch = queryParams.get('search')!;
+    });
     this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.ascending = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-      this.ngbPaginationPage = data.pagingParams.page;
+      this.page = data.pagingParams?.page ? data.pagingParams.page : 1;
+      this.ascending = data.pagingParams?.ascending ? data.pagingParams.ascending : false;
+      this.predicate = data.pagingParams?.predicate ? data.pagingParams.predicate : 'createAt';
+      this.ngbPaginationPage = data.pagingParams?.page ? data.pagingParams.page : 1;
       this.loadPage();
     });
     this.handleBackNavigation();
@@ -99,9 +104,9 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   }
 
   sort(): string[] {
-    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
-    if (this.predicate !== 'id') {
-      result.push('id');
+    const result = [this.predicate + ',' + (this.ascending ? 'desc' : 'asc')];
+    if (this.predicate !== 'createAt') {
+      result.push('createAt');
     }
     return result;
   }
@@ -109,13 +114,13 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   protected onSuccess(data: IAdvertisment[] | null, headers: HttpHeaders, page: number): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
-    this.router.navigate(['/advertisment'], {
-      queryParams: {
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
-      },
-    });
+    // this.router.navigate(['/advertisment'], {
+    // queryParams: {
+    // page: this.page,
+    // size: this.itemsPerPage,
+    // sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+    // },
+    // });
     this.advertisments = data || [];
   }
 

@@ -19,7 +19,7 @@
             <column name="type_of_via" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="number" type="varchar(255)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="zip_code" type="varchar(255)">
@@ -58,7 +58,7 @@
                   tableName="address">
             <column name="id" type="numeric"/>
             <column name="type_of_via" type="string"/>
-            <column name="number" type="string"/>
+            <column name="name" type="string"/>
             <column name="zip_code" type="string"/>
             <column name="area_disctrict" type="string"/>
             <column name="lat" type="numeric"/>

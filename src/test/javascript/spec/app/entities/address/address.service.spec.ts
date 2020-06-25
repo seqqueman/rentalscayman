@@ -57,7 +57,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             typeOfVia: 'BBBBBB',
-            number: 'BBBBBB',
+            name: 'BBBBBB',
             zipCode: 'BBBBBB',
             areaDisctrict: 'BBBBBB',
             lat: 1,
@@ -79,7 +79,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             typeOfVia: 'BBBBBB',
-            number: 'BBBBBB',
+            name: 'BBBBBB',
             zipCode: 'BBBBBB',
             areaDisctrict: 'BBBBBB',
             lat: 1,

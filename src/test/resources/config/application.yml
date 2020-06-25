@@ -32,8 +32,8 @@ spring:
       write-durations-as-timestamps: false
   jpa:
     database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-    open-in-view: false
-    show-sql: false
+    open-in-view: true
+    show-sql: true
     hibernate:
       ddl-auto: none
       naming:
@@ -117,4 +117,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  gcpmine:
+    bucket-name: rentalscayman-b4342.appspot.com

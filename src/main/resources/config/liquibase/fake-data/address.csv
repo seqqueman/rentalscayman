@@ -1,4 +1,4 @@
-id;type_of_via;number;zip_code;area_disctrict;lat;lon
+id;type_of_via;name;zip_code;area_disctrict;lat;lon
 1;STREET;Lilangeni Frozen hacking;53874-8490;EAST_END;90396;57606
 2;STREET;Berkshire Health;22519-7210;WEST_BAY;4525;54594
 3;BOULEVARD;generate Berkshire invoice;15856-3813;GEORGE_TOWN;26724;53545
