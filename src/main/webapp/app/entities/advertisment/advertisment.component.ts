@@ -24,6 +24,7 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  querySearch = '';
 
   constructor(
     protected advertismentService: AdvertismentService,
@@ -41,6 +42,7 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
+        search: this.querySearch,
       })
       .subscribe(
         (res: HttpResponse<IAdvertisment[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
@@ -49,10 +51,13 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe(queryParams => {
+      this.querySearch = queryParams.get('search')!;
+    });
     this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams?.page ? data.pagingParams.page : 1;
-      this.ascending = data.pagingParams?.ascending ? data.pagingParams.ascending : true;
-      this.predicate = data.pagingParams?.predicate ? data.pagingParams.predicate : 'id';
+      this.ascending = data.pagingParams?.ascending ? data.pagingParams.ascending : false;
+      this.predicate = data.pagingParams?.predicate ? data.pagingParams.predicate : 'createAt';
       this.ngbPaginationPage = data.pagingParams?.page ? data.pagingParams.page : 1;
       this.loadPage();
     });
@@ -99,9 +104,9 @@ export class AdvertismentComponent implements OnInit, OnDestroy {
   }
 
   sort(): string[] {
-    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
-    if (this.predicate !== 'id') {
-      result.push('id');
+    const result = [this.predicate + ',' + (this.ascending ? 'desc' : 'asc')];
+    if (this.predicate !== 'createAt') {
+      result.push('createAt');
     }
     return result;
   }

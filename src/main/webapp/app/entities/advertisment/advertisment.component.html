@@ -1,6 +1,7 @@
-<div>
-    <h2 id="page-heading">
-        <span>Advertisments</span>
+<div class="row">
+    <div class="container">
+    <h2 id="row">
+
 
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-advertisment"
             [routerLink]="['/advertisment/new']">
@@ -10,10 +11,10 @@
             </span>
         </button>
     </h2>
+<div class="row"><jhi-alert-error></jhi-alert-error></div>
 
-    <jhi-alert-error></jhi-alert-error>
-
-    <jhi-alert></jhi-alert>
+<div class="row"><jhi-alert></jhi-alert></div>
+</div>
 
     <div class="alert alert-warning" id="no-result" *ngIf="advertisments?.length === 0">
         <span>No advertisments found</span>

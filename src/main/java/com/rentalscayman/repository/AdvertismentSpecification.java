@@ -1,6 +1,10 @@
 package com.rentalscayman.repository;
 
 import com.rentalscayman.domain.Advertisment;
+import com.rentalscayman.domain.enumeration.AreaDisctrict;
+import com.rentalscayman.domain.enumeration.PropertyType;
+import com.rentalscayman.domain.enumeration.TypeAdvertisment;
+import com.rentalscayman.domain.enumeration.ViaType;
 import com.rentalscayman.web.util.SpecSearchCriteria;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -35,25 +39,51 @@ public class AdvertismentSpecification implements Specification<Advertisment> {
             expression = root.get(criteria.getKey());
         }
 
+        Object construct = criteria.getValue();
+
+        if (isEnumerador(criteria.getKey())) {
+            construct = getWithEnum(criteria.getKey(), criteria.getValue().toString());
+        }
+
         switch (criteria.getOperation()) {
             case EQUALITY:
-                return builder.equal(expression, criteria.getValue());
+                return builder.equal(expression, construct);
             case NEGATION:
-                return builder.notEqual(expression, criteria.getValue());
+                return builder.notEqual(expression, construct);
             case GREATER_THAN:
-                return builder.greaterThan(expression, criteria.getValue().toString());
+                return builder.greaterThan(expression, construct.toString());
             case LESS_THAN:
-                return builder.lessThan(expression, criteria.getValue().toString());
+                return builder.lessThan(expression, construct.toString());
             case LIKE:
                 return builder.like(expression, criteria.getValue().toString());
             case STARTS_WITH:
-                return builder.like(expression, criteria.getValue() + "%");
+                return builder.like(expression, construct + "%");
             case ENDS_WITH:
-                return builder.like(expression, "%" + criteria.getValue());
+                return builder.like(expression, "%" + construct);
             case CONTAINS:
-                return builder.like(expression, "%" + criteria.getValue() + "%");
+                return builder.like(expression, "%" + construct + "%");
             default:
                 return null;
         }
+    }
+
+    private Object getWithEnum(String key, String value) {
+        switch (key) {
+            case "typeAd":
+                return TypeAdvertisment.valueOf(value);
+            case "propertyType":
+                return PropertyType.valueOf(value);
+            case "viaType":
+                return ViaType.valueOf(value);
+            default:
+                return AreaDisctrict.valueOf(value);
+        }
+    }
+
+    private boolean isEnumerador(String key) {
+        if (key.indexOf("ype") > -1 || key.indexOf("isctric") > -1) {
+            return true;
+        }
+        return false;
     }
 }

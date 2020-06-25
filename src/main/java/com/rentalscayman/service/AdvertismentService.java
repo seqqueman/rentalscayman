@@ -41,5 +41,5 @@ public interface AdvertismentService {
      */
     void delete(Long id);
 
-    Page<Advertisment> filterAdsByCriterias(Pageable pageable, Specification<Advertisment> specification);
+    Page<Advertisment> findAdsByFilters(Specification<Advertisment> specs, Pageable pages);
 }

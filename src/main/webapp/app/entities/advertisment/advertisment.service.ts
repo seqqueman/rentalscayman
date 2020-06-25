@@ -16,6 +16,8 @@ type EntityArrayResponseType = HttpResponse<IAdvertisment[]>;
 export class AdvertismentService {
   public resourceUrl = SERVER_API_URL + 'api/advertisments';
 
+  public resourceUrlSearch = SERVER_API_URL + 'api/advertisments/search';
+
   constructor(protected http: HttpClient) {}
 
   create(advertisment: IAdvertisment): Observable<EntityResponseType> {
@@ -40,8 +42,12 @@ export class AdvertismentService {
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
+    let urlDest = this.resourceUrl;
+    if (options?.get('search')) {
+      urlDest = this.resourceUrlSearch;
+    }
     return this.http
-      .get<IAdvertisment[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .get<IAdvertisment[]>(urlDest, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 

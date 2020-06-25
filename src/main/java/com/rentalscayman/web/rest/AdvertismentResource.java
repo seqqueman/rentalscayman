@@ -1,8 +1,13 @@
 package com.rentalscayman.web.rest;
 
+import com.google.common.base.Joiner;
 import com.rentalscayman.domain.Advertisment;
+import com.rentalscayman.repository.AdvertismentSpecification;
+import com.rentalscayman.repository.AdvertismentSpecificationsBuilder;
 import com.rentalscayman.service.AdvertismentService;
 import com.rentalscayman.web.rest.errors.BadRequestAlertException;
+import com.rentalscayman.web.util.SearchOperation;
+import com.rentalscayman.web.util.SpecSearchCriteria;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -10,16 +15,26 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
@@ -92,7 +107,11 @@ public class AdvertismentResource {
     @GetMapping("/advertisments")
     public ResponseEntity<List<Advertisment>> getAllAdvertisments(Pageable pageable) {
         log.debug("REST request to get a page of Advertisments");
-        Page<Advertisment> page = advertismentService.findAll(pageable);
+        AdvertismentSpecification spec = new AdvertismentSpecification(
+            new SpecSearchCriteria("active", SearchOperation.EQUALITY, Boolean.TRUE)
+        );
+        Page<Advertisment> page = advertismentService.findAdsByFilters(spec, pageable);
+        //advertismentService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -125,5 +144,21 @@ public class AdvertismentResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/advertisments/search")
+    public ResponseEntity<List<Advertisment>> search(@RequestParam("search") String search, Pageable pageable) {
+        AdvertismentSpecificationsBuilder builder = new AdvertismentSpecificationsBuilder();
+        String operationSetExper = Joiner.on("|").join(SearchOperation.SIMPLE_OPERATION_SET);
+        Pattern pattern = Pattern.compile("(\\p{Punct}?)(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+        Matcher matcher = pattern.matcher(search + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(4), matcher.group(6));
+        }
+
+        Specification<Advertisment> spec = builder.build();
+        Page<Advertisment> page = advertismentService.findAdsByFilters(spec, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

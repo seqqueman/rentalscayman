@@ -75,4 +75,9 @@ public class AdvertismentServiceImpl implements AdvertismentService {
 
         advertismentRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Advertisment> findAdsByFilters(Specification<Advertisment> specs, Pageable pages) {
+        return advertismentRepository.findAll(specs, pages);
+    }
 }

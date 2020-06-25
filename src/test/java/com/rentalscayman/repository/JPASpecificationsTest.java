@@ -136,7 +136,12 @@ public class JPASpecificationsTest {
     @Test
     public void givenDistrictArea_whenIsEqual_CorrectResults() {
         final AdvertismentSpecification spec = new AdvertismentSpecification(
-            new SpecSearchCriteria("address.areaDisctrict", SearchOperation.EQUALITY, AreaDisctrict.GEORGE_TOWN)
+            new SpecSearchCriteria(
+                "address.areaDisctrict",
+                SearchOperation.EQUALITY,
+                "GEORGE_TOWN"
+                /*AreaDisctrict.valueOf( "GEORGE_TOWN")*/
+            )
         );
         //        final AdvertismentSpecification spec1 = new AdvertismentSpecification(new SpecSearchCriteria("feature.numberBedrooms", SearchOperation.GREATER_THAN, 2));
         final List<Advertisment> results = advRepository.findAll(
