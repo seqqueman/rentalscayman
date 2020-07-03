@@ -19,6 +19,7 @@ import { PropertyType } from 'app/shared/model/enumerations/property-type.model'
 import { AreaDisctrict } from 'app/shared/model/enumerations/area-disctrict.model';
 import { TypeAdvertisment } from 'app/shared/model/enumerations/type-advertisment.model';
 import { ViaType } from 'app/shared/model/enumerations/via-type.model';
+import { CurrencyPipe } from '@angular/common';
 
 type SelectableEntity = IAddress | IFeature | IUser;
 
@@ -48,6 +49,7 @@ export class AdvertismentUpdateComponent implements OnInit {
     protected featureService: FeatureService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
+    private currencyPipe: CurrencyPipe,
     private fb: FormBuilder
   ) {
     this.editForm = fb.group({
@@ -58,7 +60,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       typeAd: new FormControl(this.eTypeAdvertis.FOR_RENT, Validators.required),
       propertyType: [null, [Validators.required]],
       // active: [null, [Validators.required]],
-      price: [null, [Validators.required]],
+      price: [this.formatMoney('0'), [Validators.required]],
       // reference: [''],
       address: this.fb.group({
         typeOfVia: [null, [Validators.required]],
@@ -147,7 +149,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       typeAd: this.isEdition ? advertisment.typeAd : this.eTypeAdvertis.FOR_RENT,
       propertyType: this.isEdition ? advertisment.propertyType : null,
       // active: advertisment.active,
-      price: advertisment.price,
+      price: advertisment?.price ? this.formatMoney('' + advertisment.price) : '0',
       // reference: advertisment.reference,
       address: {
         typeOfVia: this.isEdition ? advertisment.address?.typeOfVia : null,
@@ -248,5 +250,23 @@ export class AdvertismentUpdateComponent implements OnInit {
 
     // this.forma.statusChanges.subscribe( status => console.log({ status }));
     // this.forma.get('nombre').valueChanges.subscribe( console.log );
+  }
+
+  transformTotal(): void {
+    const valor = this.editForm.controls.price.value;
+    this.editForm.controls.price.setValue(
+      /* eslint-disable-next-line */
+      this.formatMoney(valor.toString().replace(/\,/g, '')),
+      { emitEvent: false }
+    );
+  }
+
+  formatMoney(value: string): string {
+    /* eslint-disable-next-line */
+    const temp = `${value}`.toString().replace(/\,/g, '');
+    const converted = this.currencyPipe.transform(temp, 'KYD ')?.replace('$', '') || '';
+    /* eslint-disable-next-line */
+    console.log(converted);
+    return converted;
   }
 }

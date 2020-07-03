@@ -11,6 +11,8 @@ import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,12 +84,13 @@ public class ImageResource {
 
     @PostMapping("/images/upload")
     //	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public ResponseEntity<?> uploadImage(
+    public ResponseEntity<Image> uploadImage(
         @RequestParam("fileImage") MultipartFile fileImage,
         @RequestParam("id") Long id,
         @RequestParam("description") String description
     )
         throws Exception {
+        Image photo = new Image();
         Map<String, Object> response = new HashMap<>();
         Advertisment advert = advertismentService.findOne(id).orElseThrow(() -> new Exception("Problem adding image to advertisment"));
 
@@ -99,21 +102,26 @@ public class ImageResource {
             } catch (Exception ex) {
                 response.put("mensaje", "Error while uploading image ");
                 response.put("Error", ex.getMessage().concat(": ").concat(ex.getCause().getMessage()));
-                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                //                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new BadRequestAlertException("Imposible to upload the image", ENTITY_NAME, "storage error");
             }
 
-            Image photo = new Image();
             photo.setAdvertisment(advert);
             photo.setDescription(description);
             photo.setUrl(blobPhoto.getMediaLink());
+            photo.setCreated(LocalDate.now());
             photo.setName(blobPhoto.getName());
-
-            imageRepository.saveAndFlush(photo);
+            photo.setImgContentType(fileImage.getContentType());
+            photo = imageRepository.saveAndFlush(photo);
 
             response.put("mensaje", "Imagen subida correctamente");
         }
 
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+        //        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+        return ResponseEntity
+            .created(new URI("/api/images/upload" + photo.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, photo.getId().toString()))
+            .body(photo);
     }
 
     /**

@@ -13,10 +13,7 @@
                     <div class="col-8">
                         <div class="form-group col-6">
                             <label class="form-control-label col-8" for="field_typeAd">Type Ad</label>
-                            <!-- <select class="form-control" name="typeAd" formControlName="typeAd" id="field_typeAd">
-                <option [ngValue]="null">Select one...</option>
-                <option *ngFor="let ads of eTypeAdvertis | keyvalue" value="{{ ads.key }}">{{ ads.value }}</option>
-              </select> -->
+
                             <div class="btn-group btn-group-toggle" >
 
                                 <label class="btn btn-primary mr-5" *ngFor="let ads of eTypeAdvertis | keyvalue"
@@ -55,7 +52,7 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_description">Description</label>
                             <input type="text" class="form-control" name="description" id="field_description"
-                                formControlName="description" />
+                                formControlName="description" (blur)="transformTotal()"/>
                             <div
                                 *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
                                 <small class="form-text text-danger"
@@ -67,7 +64,7 @@
 
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_price">Price</label>
-                            <input type="number" class="form-control" name="price" id="field_price"
+                            <input type="text" class="form-control" name="price" id="field_price"
                                 formControlName="price" />
                             <div
                                 *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
@@ -87,7 +84,6 @@
                     </div>
                     <div class="col-8">
                         <div formGroupName="address">
-                            <!-- <label class="form-control-label" for="field_address">Address</label> -->
 
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="field_typeOfVia">Type Of Via</label>
@@ -265,9 +261,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <jhi-image-update></jhi-image-update>
-            </div>
+            </div> -->
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>

@@ -16,12 +16,25 @@ type EntityArrayResponseType = HttpResponse<IImage[]>;
 export class ImageService {
   public resourceUrl = SERVER_API_URL + 'api/images';
 
+  public resourceUploadUrl = SERVER_API_URL + 'api/images/upload';
+
   constructor(protected http: HttpClient) {}
 
   create(image: IImage): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(image);
     return this.http
       .post<IImage>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  uploadImage(id: string, fileImage: File, description: string): Observable<EntityResponseType> {
+    const formData = new FormData();
+    formData.append('fileImage', fileImage);
+    formData.append('id', id);
+    formData.append('description', description);
+
+    return this.http
+      .post<IImage>(this.resourceUploadUrl, formData, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 

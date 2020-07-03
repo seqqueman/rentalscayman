@@ -21,10 +21,14 @@ export class ImageUpdateComponent implements OnInit {
   advertisments: IAdvertisment[] = [];
   createdDp: any;
   ad: IAdvertisment = {};
+  idAdv = 1;
+  errorLaunched = false;
+  private selectedFile: any;
 
   editForm = this.fb.group({
-    // id: [],
-    name: [],
+    id: [],
+    idImage: [],
+    // name: [],
     // created: [],
     img: [null, [Validators.required]],
     imgContentType: [],
@@ -43,16 +47,25 @@ export class ImageUpdateComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
+  // ngOnInit(): void {
+  //   this.activatedRoute.data.subscribe(({ image }) => {
+  //     this.updateForm(image);
+
+  //     this.advertismentService.query().subscribe((res: HttpResponse<IAdvertisment[]>) => (this.advertisments = res.body || []));
+  //   });
+  // }
+
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ image }) => {
       this.updateForm(image);
       this.activatedRoute.paramMap.subscribe(param => {
-        const id: number = +param.get('id')!;
-        if (id) {
-          this.advertismentService.find(id).subscribe((res: HttpResponse<IAdvertisment>) => {
-            this.ad = res.body || new Advertisment();
-          });
-        }
+        // const idAdvertisment: number = +param.get('id')!;
+        // if (idAdvertisment) {
+        //   this.advertismentService.find(idAdvertisment).subscribe((res: HttpResponse<IAdvertisment>) => {
+        //     this.ad = res.body || new Advertisment();
+        //   });
+        // }
+        this.idAdv = +param.get('id')!;
       });
       // this.advertismentService.query().subscribe((res: HttpResponse<IAdvertisment[]>) => (this.advertisments = res.body || []));
     });
@@ -60,8 +73,9 @@ export class ImageUpdateComponent implements OnInit {
 
   updateForm(image: IImage): void {
     this.editForm.patchValue({
-      // id: image.id,
-      name: image.name,
+      id: this.idAdv,
+      idImage: image.id,
+      // name: image.name,
       // created: image.created,
       img: image.img,
       imgContentType: image.imgContentType,
@@ -79,12 +93,16 @@ export class ImageUpdateComponent implements OnInit {
     this.dataUtils.openFile(contentType, base64String);
   }
 
-  setFileData(event: Event, field: string, isImage: boolean): void {
+  setFileData(event: any, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
+      this.errorLaunched = true;
       this.eventManager.broadcast(
         new JhiEventWithContent<AlertError>('rentalscaymanApp.error', { message: err.message })
       );
     });
+    if (!this.errorLaunched) {
+      this.selectedFile = event.target!.files[0];
+    }
   }
 
   clearInputImage(field: string, fieldContentType: string, idInput: string): void {
@@ -107,15 +125,16 @@ export class ImageUpdateComponent implements OnInit {
     if (image.id !== undefined) {
       this.subscribeToSaveResponse(this.imageService.update(image));
     } else {
-      this.subscribeToSaveResponse(this.imageService.create(image));
+      // this.subscribeToSaveResponse(this.imageService.create(image));
+      this.subscribeToSaveResponse(this.imageService.uploadImage(this.editForm.get(['id'])!.value, this.selectedFile, image.description!));
     }
   }
 
   private createFromForm(): IImage {
     return {
       ...new Image(),
-      // id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
+      id: this.editForm.get(['idImage'])!.value,
+      // name: this.editForm.get(['name'])!.value,
       // created: this.editForm.get(['created'])!.value,
       imgContentType: this.editForm.get(['imgContentType'])!.value,
       img: this.editForm.get(['img'])!.value,

@@ -27,9 +27,9 @@ public class Image implements Serializable {
     @Column(name = "created")
     private LocalDate created;
 
-    @Lob
-    @Column(name = "img", nullable = false)
-    private byte[] img;
+    //    @Lob
+    //    @Column(name = "img", nullable = false)
+    //    private byte[] img;
 
     @Column(name = "img_content_type", nullable = false)
     private String imgContentType;
@@ -79,18 +79,18 @@ public class Image implements Serializable {
         this.created = created;
     }
 
-    public byte[] getImg() {
-        return img;
-    }
-
-    public Image img(byte[] img) {
-        this.img = img;
-        return this;
-    }
-
-    public void setImg(byte[] img) {
-        this.img = img;
-    }
+    //    public byte[] getImg() {
+    //        return img;
+    //    }
+    //
+    //    public Image img(byte[] img) {
+    //        this.img = img;
+    //        return this;
+    //    }
+    //
+    //    public void setImg(byte[] img) {
+    //        this.img = img;
+    //    }
 
     public String getImgContentType() {
         return imgContentType;
@@ -169,7 +169,7 @@ public class Image implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", created='" + getCreated() + "'" +
-            ", img='" + getImg() + "'" +
+//            ", img='" + getImg() + "'" +
             ", imgContentType='" + getImgContentType() + "'" +
             ", description='" + getDescription() + "'" +
             ", url='" + getUrl() + "'" +
