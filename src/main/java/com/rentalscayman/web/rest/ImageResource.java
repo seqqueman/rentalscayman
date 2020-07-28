@@ -91,37 +91,36 @@ public class ImageResource {
     )
         throws Exception {
         Image photo = new Image();
-        Map<String, Object> response = new HashMap<>();
         Advertisment advert = advertismentService.findOne(id).orElseThrow(() -> new Exception("Problem adding image to advertisment"));
 
-        //		Cliente cliente = clienteService.findByIdCliente(id);
         if (!fileImage.isEmpty()) {
-            Blob blobPhoto = null;
-            try {
-                blobPhoto = uploadService.copyImage(fileImage);
-            } catch (Exception ex) {
-                response.put("mensaje", "Error while uploading image ");
-                response.put("Error", ex.getMessage().concat(": ").concat(ex.getCause().getMessage()));
-                //                return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-                throw new BadRequestAlertException("Imposible to upload the image", ENTITY_NAME, "storage error");
-            }
+            uploadToCloud(fileImage, description, photo);
 
-            photo.setAdvertisment(advert);
-            photo.setDescription(description);
-            photo.setUrl(blobPhoto.getMediaLink());
-            photo.setCreated(LocalDate.now());
-            photo.setName(blobPhoto.getName());
-            photo.setImgContentType(fileImage.getContentType());
-            photo = imageRepository.saveAndFlush(photo);
+            advert.addImage(photo);
+            //    		photo.setAdvertisment(advert);
 
-            response.put("mensaje", "Imagen subida correctamente");
+            photo = imageRepository.save(photo);
         }
 
-        //        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
         return ResponseEntity
             .created(new URI("/api/images/upload" + photo.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, photo.getId().toString()))
             .body(photo);
+    }
+
+    public void uploadToCloud(MultipartFile fileImage, String description, Image photo) {
+        Blob blobPhoto = null;
+        try {
+            blobPhoto = uploadService.copyImage(fileImage);
+        } catch (Exception ex) {
+            throw new BadRequestAlertException("Imposible to upload the image", ENTITY_NAME, "storage error");
+        }
+
+        photo.setDescription(description);
+        photo.setUrl(blobPhoto.getMediaLink());
+        photo.setCreated(LocalDate.now());
+        photo.setName(blobPhoto.getName());
+        photo.setImgContentType(fileImage.getContentType());
     }
 
     /**

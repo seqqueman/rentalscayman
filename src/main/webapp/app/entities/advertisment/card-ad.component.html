@@ -1,5 +1,5 @@
 <div class="card">
-    <img style="max-width:250px" src="https://storage.googleapis.com/download/storage/v1/b/rentalscayman-b4342.appspot.com/o/98a51f8969d647f3830edc9cdfc34046_16_17_18.jpg?generation=1591114620576069&alt=media"
+    <img style="max-width:250px" [src]="advertisment.images! | noimage"
         class="card-img-top" alt="image">
     <div class="card-body">
         <h5 class="card-title"><a [routerLink]="['/advertisment', advertisment.id, 'view']">{{ advertisment.reference }}</a></h5>

@@ -6,24 +6,21 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-        <property name="autoIncrement" value="true"/>
-
+       
     <!--
         Added the entity Feature.
     -->
     <changeSet id="20200522075651-1" author="jhipster">
         <createTable tableName="feature">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
+            
             <column name="number_bedrooms" type="integer">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="number_bathroom" type="integer">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="full_kitchen" type="boolean">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="elevator" type="boolean">
                 <constraints nullable="true" />
@@ -43,8 +40,12 @@
             <column name="m_2" type="integer">
                 <constraints nullable="true" />
             </column>
+            <column name="advertisment_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <addPrimaryKey columnNames="advertisment_id" tableName="feature"/>
     </changeSet>
 
     <changeSet id="20200522075651-1-relations" author="jhipster">
@@ -65,7 +66,6 @@
                   file="config/liquibase/fake-data/feature.csv"
                   separator=";"
                   tableName="feature">
-            <column name="id" type="numeric"/>
             <column name="number_bedrooms" type="numeric"/>
             <column name="number_bathroom" type="numeric"/>
             <column name="full_kitchen" type="boolean"/>

@@ -9,7 +9,7 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IImage, Image } from 'app/shared/model/image.model';
 import { ImageService } from './image.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAdvertisment, Advertisment } from 'app/shared/model/advertisment.model';
+import { IAdvertisment } from 'app/shared/model/advertisment.model';
 import { AdvertismentService } from 'app/entities/advertisment/advertisment.service';
 
 @Component({
@@ -18,12 +18,13 @@ import { AdvertismentService } from 'app/entities/advertisment/advertisment.serv
 })
 export class ImageUpdateComponent implements OnInit {
   isSaving = false;
-  advertisments: IAdvertisment[] = [];
+  // advertisments: IAdvertisment[] = [];
   createdDp: any;
-  ad: IAdvertisment = {};
+  // ad: IAdvertisment = {};
   idAdv = 1;
   errorLaunched = false;
   private selectedFile: any;
+  private title = '';
 
   editForm = this.fb.group({
     id: [],
@@ -56,17 +57,19 @@ export class ImageUpdateComponent implements OnInit {
   // }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe(param => {
+      // const idAdvertisment: number = +param.get('id')!;
+      // if (idAdvertisment) {
+      //   this.advertismentService.find(idAdvertisment).subscribe((res: HttpResponse<IAdvertisment>) => {
+      //     this.ad = res.body || new Advertisment();
+      //   });
+      // }
+      this.idAdv = +param.get('idAdv')!;
+    });
     this.activatedRoute.data.subscribe(({ image }) => {
+      this.title = image.pageTitle;
       this.updateForm(image);
-      this.activatedRoute.paramMap.subscribe(param => {
-        // const idAdvertisment: number = +param.get('id')!;
-        // if (idAdvertisment) {
-        //   this.advertismentService.find(idAdvertisment).subscribe((res: HttpResponse<IAdvertisment>) => {
-        //     this.ad = res.body || new Advertisment();
-        //   });
-        // }
-        this.idAdv = +param.get('id')!;
-      });
+
       // this.advertismentService.query().subscribe((res: HttpResponse<IAdvertisment[]>) => (this.advertisments = res.body || []));
     });
   }

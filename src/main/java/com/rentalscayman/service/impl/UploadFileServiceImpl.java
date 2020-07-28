@@ -47,7 +47,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 
     @Override
     public Blob copyImage(MultipartFile archivo) throws Exception {
-        if (FilenameUtils.isExtension(archivo.getOriginalFilename(), extensions)) {
+        if (FilenameUtils.isExtension(archivo.getOriginalFilename().toLowerCase(), extensions)) {
             String nombreArchivo =
                 UUID.randomUUID().toString().replace("-", "").substring(0, 10) + "_" + archivo.getOriginalFilename().replace(" ", "");
             //        Map<String, String> metadata = new HashMap<String, String>();

@@ -10,17 +10,11 @@
     },
     {
       "fieldName": "createAt",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "modifiedAt",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "typeAd",
@@ -40,10 +34,7 @@
     },
     {
       "fieldName": "active",
-      "fieldType": "Boolean",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "Boolean"
     },
     {
       "fieldName": "price",
@@ -54,44 +45,39 @@
     },
     {
       "fieldName": "reference",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "String"
     }
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "address",
-      "otherEntityRelationshipName": "advertisment",
-      "relationshipName": "address",
-      "otherEntityField": "id",
-      "ownerSide": true
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "feature",
-      "otherEntityRelationshipName": "advertisment",
-      "relationshipName": "feature",
-      "otherEntityField": "id",
-      "ownerSide": true
-    },
-    {
       "relationshipType": "one-to-many",
       "otherEntityName": "image",
       "otherEntityRelationshipName": "advertisment",
-      "relationshipName": "images"
+      "relationshipName": "image"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "user",
       "otherEntityRelationshipName": "advertisment",
       "relationshipName": "user",
-      "otherEntityField": "login"
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "advertisment",
+      "relationshipName": "address",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "feature",
+      "otherEntityRelationshipName": "advertisment",
+      "relationshipName": "feature",
+      "ownerSide": false
     }
   ],
-  "changelogDate": "20200522075751",
+  "changelogDate": "20200723154553",
   "entityTableName": "advertisment",
   "dto": "no",
   "pagination": "pagination",

@@ -68,7 +68,7 @@ public class ImageResourceIT {
         Image image = new Image()
             .name(DEFAULT_NAME)
             .created(DEFAULT_CREATED)
-            .img(DEFAULT_IMG)
+            //            .img(DEFAULT_IMG)
             .imgContentType(DEFAULT_IMG_CONTENT_TYPE)
             .description(DEFAULT_DESCRIPTION)
             .url(DEFAULT_URL);
@@ -85,7 +85,7 @@ public class ImageResourceIT {
         Image image = new Image()
             .name(UPDATED_NAME)
             .created(UPDATED_CREATED)
-            .img(UPDATED_IMG)
+            //            .img(UPDATED_IMG)
             .imgContentType(UPDATED_IMG_CONTENT_TYPE)
             .description(UPDATED_DESCRIPTION)
             .url(UPDATED_URL);
@@ -112,7 +112,7 @@ public class ImageResourceIT {
         Image testImage = imageList.get(imageList.size() - 1);
         assertThat(testImage.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testImage.getCreated()).isEqualTo(DEFAULT_CREATED);
-        assertThat(testImage.getImg()).isEqualTo(DEFAULT_IMG);
+        //        assertThat(testImage.getImg()).isEqualTo(DEFAULT_IMG);
         assertThat(testImage.getImgContentType()).isEqualTo(DEFAULT_IMG_CONTENT_TYPE);
         assertThat(testImage.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testImage.getUrl()).isEqualTo(DEFAULT_URL);
@@ -151,7 +151,7 @@ public class ImageResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].created").value(hasItem(DEFAULT_CREATED.toString())))
             .andExpect(jsonPath("$.[*].imgContentType").value(hasItem(DEFAULT_IMG_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
+            //.andExpect(jsonPath("$.[*].img").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMG))))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)));
     }
@@ -171,7 +171,7 @@ public class ImageResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.created").value(DEFAULT_CREATED.toString()))
             .andExpect(jsonPath("$.imgContentType").value(DEFAULT_IMG_CONTENT_TYPE))
-            .andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)))
+            //.andExpect(jsonPath("$.img").value(Base64Utils.encodeToString(DEFAULT_IMG)))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.url").value(DEFAULT_URL));
     }
@@ -198,7 +198,7 @@ public class ImageResourceIT {
         updatedImage
             .name(UPDATED_NAME)
             .created(UPDATED_CREATED)
-            .img(UPDATED_IMG)
+            //            .img(UPDATED_IMG)
             .imgContentType(UPDATED_IMG_CONTENT_TYPE)
             .description(UPDATED_DESCRIPTION)
             .url(UPDATED_URL);
@@ -213,7 +213,7 @@ public class ImageResourceIT {
         Image testImage = imageList.get(imageList.size() - 1);
         assertThat(testImage.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testImage.getCreated()).isEqualTo(UPDATED_CREATED);
-        assertThat(testImage.getImg()).isEqualTo(UPDATED_IMG);
+        //        assertThat(testImage.getImg()).isEqualTo(UPDATED_IMG);
         assertThat(testImage.getImgContentType()).isEqualTo(UPDATED_IMG_CONTENT_TYPE);
         assertThat(testImage.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testImage.getUrl()).isEqualTo(UPDATED_URL);

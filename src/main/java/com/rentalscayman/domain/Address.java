@@ -1,25 +1,36 @@
 package com.rentalscayman.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rentalscayman.domain.enumeration.AreaDisctrict;
 import com.rentalscayman.domain.enumeration.ViaType;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * A Address.
  */
 @Entity
 @Table(name = "address")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@DynamicUpdate
 public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -45,6 +56,12 @@ public class Address implements Serializable {
 
     @Column(name = "lon", precision = 21, scale = 2)
     private BigDecimal lon;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonIgnore
+    private Advertisment advertisment;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -133,6 +150,19 @@ public class Address implements Serializable {
         this.lon = lon;
     }
 
+    public Advertisment getAdvertisment() {
+        return advertisment;
+    }
+
+    public Address advertisment(Advertisment advertisment) {
+        this.advertisment = advertisment;
+        return this;
+    }
+
+    public void setAdvertisment(Advertisment advertisment) {
+        this.advertisment = advertisment;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -157,7 +187,7 @@ public class Address implements Serializable {
         return "Address{" +
             "id=" + getId() +
             ", typeOfVia='" + getTypeOfVia() + "'" +
-            ", number='" + getName() + "'" +
+            ", name='" + getName() + "'" +
             ", zipCode='" + getZipCode() + "'" +
             ", areaDisctrict='" + getAreaDisctrict() + "'" +
             ", lat=" + getLat() +

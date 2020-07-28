@@ -76,7 +76,7 @@ export const imageRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'Edit Images',
+      pageTitle: 'Edit Image',
     },
     canActivate: [UserRouteAccessService],
   },

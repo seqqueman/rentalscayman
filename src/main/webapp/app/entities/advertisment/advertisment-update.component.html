@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-10">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 class="text-left" id="jhi-advertisment-heading">Create or edit a Advertisment</h2>
+            <h2 class="text-left" id="jhi-advertisment-heading">{{title}}</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -48,11 +48,10 @@
                                 </small>
                             </div>
                         </div>
-
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_description">Description</label>
                             <input type="text" class="form-control" name="description" id="field_description"
-                                formControlName="description" (blur)="transformTotal()"/>
+                                formControlName="description" />
                             <div
                                 *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
                                 <small class="form-text text-danger"
@@ -65,7 +64,7 @@
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_price">Price</label>
                             <input type="text" class="form-control" name="price" id="field_price"
-                                formControlName="price" />
+                                formControlName="price" (blur)="transformTotal()" />
                             <div
                                 *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
                                 <small class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required">
@@ -131,7 +130,12 @@
                                         *ngIf="editForm.get('address')?.get('zipCode')?.errors?.required">
                                         This field is required.
                                     </small>
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('address')?.get('zipCode')?.errors?.pattern">
+                                        Please enter a valid zip code for Cayman Islands
+                                    </small>
                                 </div>
+
                             </div>
 
                             <div class="form-group col-6">

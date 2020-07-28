@@ -9,17 +9,33 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * A Advertisment.
  */
 @Entity
 @Table(name = "advertisment")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@DynamicUpdate
 public class Advertisment implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -31,11 +47,9 @@ public class Advertisment implements Serializable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    //    @NotNull
-    @Column(name = "create_at", nullable = false)
+    @Column(name = "create_at", nullable = false, updatable = false)
     private LocalDate createAt;
 
-    //    @NotNull
     @Column(name = "modified_at", nullable = false)
     private LocalDate modifiedAt;
 
@@ -54,28 +68,31 @@ public class Advertisment implements Serializable {
     private Boolean active;
 
     @NotNull
-    @Column(name = "price", precision = 21, scale = 2, nullable = false)
+    @Column(name = "price", precision = 11, scale = 2, nullable = false)
     private BigDecimal price;
 
-    //    @NotNull
-    @Column(name = "reference", nullable = false)
+    // @NotNull
+    @Column(name = "reference", nullable = false, updatable = false)
     private String reference;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
-    private Address address;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
-    private Feature feature;
-
-    @OneToMany(mappedBy = "advertisment", cascade = CascadeType.ALL)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    //    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @OneToMany(
+        mappedBy = "advertisment",
+        cascade = CascadeType.ALL,
+        //			orphanRemoval = true,
+        fetch = FetchType.EAGER
+    )
     private Set<Image> images = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "advertisments", allowSetters = true)
     private User user;
+
+    @OneToOne(mappedBy = "advertisment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Address address;
+
+    @OneToOne(mappedBy = "advertisment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Feature feature;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -190,32 +207,6 @@ public class Advertisment implements Serializable {
         this.reference = reference;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public Advertisment address(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Feature getFeature() {
-        return feature;
-    }
-
-    public Advertisment feature(Feature feature) {
-        this.feature = feature;
-        return this;
-    }
-
-    public void setFeature(Feature feature) {
-        this.feature = feature;
-    }
-
     public Set<Image> getImages() {
         return images;
     }
@@ -225,15 +216,17 @@ public class Advertisment implements Serializable {
         return this;
     }
 
-    public Advertisment addImages(Image image) {
+    public Advertisment addImage(Image image) {
         this.images.add(image);
         image.setAdvertisment(this);
+        //		image.setAdvertismentId(this.getId());
         return this;
     }
 
-    public Advertisment removeImages(Image image) {
+    public Advertisment removeImage(Image image) {
         this.images.remove(image);
         image.setAdvertisment(null);
+        //		image.setAdvertismentId(this.getId());
         return this;
     }
 
@@ -254,6 +247,53 @@ public class Advertisment implements Serializable {
         this.user = user;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public Advertisment address(Address address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(Address address) {
+        //    	if (address == null) {
+        //            if (this.address != null) {
+        //                this.address.setAdvertisment(null);;
+        //            }
+        //        }
+        //        else {
+        address.setAdvertisment(this);
+        address.setId(this.getId());
+        //        }
+        this.address = address;
+    }
+
+    public Feature getFeature() {
+        return feature;
+    }
+
+    public Advertisment feature(Feature feature) {
+        this.feature = feature;
+        return this;
+    }
+
+    public void setFeature(Feature feature) {
+        //    	if (feature == null) {
+        //            if (this.feature != null) {
+        //                this.feature.setAdvertisment(null);;
+        //            }
+        //        }
+        //        else {
+        feature.setAdvertisment(this);
+        feature.setId(this.getId());
+        //        }
+        this.feature = feature;
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
+
     @PrePersist
     public void prePersist() {
         createAt = LocalDate.now();
@@ -265,8 +305,6 @@ public class Advertisment implements Serializable {
     public void preUpdate() {
         modifiedAt = LocalDate.now();
     }
-
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -285,18 +323,11 @@ public class Advertisment implements Serializable {
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "Advertisment{" +
-            "id=" + getId() +
-            ", description='" + getDescription() + "'" +
-            ", createAt='" + getCreateAt() + "'" +
-            ", modifiedAt='" + getModifiedAt() + "'" +
-            ", typeAd='" + getTypeAd() + "'" +
-            ", propertyType='" + getPropertyType() + "'" +
-            ", active='" + isActive() + "'" +
-            ", price=" + getPrice() +
-            ", reference='" + getReference() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "Advertisment{" + "id=" + getId() + ", description='" + getDescription() + "'" + ", createAt='"
+				+ getCreateAt() + "'" + ", modifiedAt='" + getModifiedAt() + "'" + ", typeAd='" + getTypeAd() + "'"
+				+ ", propertyType='" + getPropertyType() + "'" + ", active='" + isActive() + "'" + ", price="
+				+ getPrice() + ", reference='" + getReference() + "'" + "}";
+	}
 }
