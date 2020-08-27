@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-10">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 class="text-left" id="jhi-advertisment-heading">Create or edit a Advertisment</h2>
+            <h2 class="text-left" id="jhi-advertisment-heading">{{title}}</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -13,10 +13,7 @@
                     <div class="col-8">
                         <div class="form-group col-6">
                             <label class="form-control-label col-8" for="field_typeAd">Type Ad</label>
-                            <!-- <select class="form-control" name="typeAd" formControlName="typeAd" id="field_typeAd">
-                <option [ngValue]="null">Select one...</option>
-                <option *ngFor="let ads of eTypeAdvertis | keyvalue" value="{{ ads.key }}">{{ ads.value }}</option>
-              </select> -->
+
                             <div class="btn-group btn-group-toggle" >
 
                                 <label class="btn btn-primary mr-5" *ngFor="let ads of eTypeAdvertis | keyvalue"
@@ -51,7 +48,6 @@
                                 </small>
                             </div>
                         </div>
-
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_description">Description</label>
                             <input type="text" class="form-control" name="description" id="field_description"
@@ -64,11 +60,14 @@
                                 </small>
                             </div>
                         </div>
-
+                        <div class="form-group" [hidden]="true">
+                            <input type="checkbox" class="form-control" name="active" id="field_active"
+                                   formControlName="active"/>
+                        </div>
                         <div class="form-group col-6">
                             <label class="form-control-label" for="field_price">Price</label>
-                            <input type="number" class="form-control" name="price" id="field_price"
-                                formControlName="price" />
+                            <input type="text" class="form-control" name="price" id="field_price"
+                                formControlName="price" (blur)="transformTotal()" />
                             <div
                                 *ngIf="editForm.get('price')!.invalid && (editForm.get('price')!.dirty || editForm.get('price')!.touched)">
                                 <small class="form-text text-danger" *ngIf="editForm.get('price')?.errors?.required">
@@ -87,7 +86,6 @@
                     </div>
                     <div class="col-8">
                         <div formGroupName="address">
-                            <!-- <label class="form-control-label" for="field_address">Address</label> -->
 
                             <div class="form-group col-6">
                                 <label class="form-control-label" for="field_typeOfVia">Type Of Via</label>
@@ -135,7 +133,12 @@
                                         *ngIf="editForm.get('address')?.get('zipCode')?.errors?.required">
                                         This field is required.
                                     </small>
+                                    <small class="form-text text-danger"
+                                        *ngIf="editForm.get('address')?.get('zipCode')?.errors?.pattern">
+                                        Please enter a valid zip code for Cayman Islands
+                                    </small>
                                 </div>
+
                             </div>
 
                             <div class="form-group col-6">
@@ -265,9 +268,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <jhi-image-update></jhi-image-update>
-            </div>
+            </div> -->
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>

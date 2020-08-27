@@ -33,6 +33,7 @@ public class AdvertismentServiceImpl implements AdvertismentService {
      * @return the persisted entity.
      */
     @Override
+    @Transactional(readOnly = false)
     public Advertisment save(Advertisment advertisment) {
         log.debug("Request to save Advertisment : {}", advertisment);
         return advertismentRepository.save(advertisment);

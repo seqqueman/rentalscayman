@@ -3,10 +3,17 @@ package com.rentalscayman.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * A Image.
@@ -14,6 +21,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "image")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@DynamicUpdate
 public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -27,9 +35,9 @@ public class Image implements Serializable {
     @Column(name = "created")
     private LocalDate created;
 
-    @Lob
-    @Column(name = "img", nullable = false)
-    private byte[] img;
+    //    @Lob
+    //    @Column(name = "img", nullable = false)
+    //    private byte[] img;
 
     @Column(name = "img_content_type", nullable = false)
     private String imgContentType;
@@ -40,9 +48,12 @@ public class Image implements Serializable {
     @Column(name = "url")
     private String url;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = "images", allowSetters = true)
     private Advertisment advertisment;
+
+    //    @Column(name="advertisment_id")
+    //    private Long advertismentId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -79,18 +90,18 @@ public class Image implements Serializable {
         this.created = created;
     }
 
-    public byte[] getImg() {
-        return img;
-    }
-
-    public Image img(byte[] img) {
-        this.img = img;
-        return this;
-    }
-
-    public void setImg(byte[] img) {
-        this.img = img;
-    }
+    //    public byte[] getImg() {
+    //        return img;
+    //    }
+    //
+    //    public Image img(byte[] img) {
+    //        this.img = img;
+    //        return this;
+    //    }
+    //
+    //    public void setImg(byte[] img) {
+    //        this.img = img;
+    //    }
 
     public String getImgContentType() {
         return imgContentType;
@@ -146,6 +157,14 @@ public class Image implements Serializable {
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
+    //    public Long getAdvertismentId() {
+    //		return advertismentId;
+    //	}
+    //
+    //	public void setAdvertismentId(Long advertismentId) {
+    //		this.advertismentId = advertismentId;
+    //	}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -169,7 +188,7 @@ public class Image implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", created='" + getCreated() + "'" +
-            ", img='" + getImg() + "'" +
+//            ", img='" + getImg() + "'" +
             ", imgContentType='" + getImgContentType() + "'" +
             ", description='" + getDescription() + "'" +
             ", url='" + getUrl() + "'" +

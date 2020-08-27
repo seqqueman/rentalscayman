@@ -9,6 +9,7 @@ import { AdvertismentDeleteDialogComponent } from './advertisment-delete-dialog.
 import { advertismentRoute } from './advertisment.route';
 import { ImageUpdateComponent } from '../image/image-update.component';
 // import { CardAdComponent } from './card-ad.component';
+import { CurrencyPipe } from '@angular/common';
 
 @NgModule({
   imports: [RentalscaymanSharedModule, RouterModule.forChild(advertismentRoute)],
@@ -20,6 +21,7 @@ import { ImageUpdateComponent } from '../image/image-update.component';
     ImageUpdateComponent,
     // CardAdComponent,
   ],
+  providers: [CurrencyPipe],
   // exports:[AdvertismentComponent],
 
   entryComponents: [AdvertismentDeleteDialogComponent],

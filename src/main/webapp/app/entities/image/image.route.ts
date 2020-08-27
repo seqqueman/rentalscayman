@@ -64,7 +64,7 @@ export const imageRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'Images',
+      pageTitle: 'Upload Images',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -76,7 +76,7 @@ export const imageRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'Images',
+      pageTitle: 'Edit Image',
     },
     canActivate: [UserRouteAccessService],
   },

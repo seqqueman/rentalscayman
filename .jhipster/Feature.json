@@ -17,10 +17,7 @@
     },
     {
       "fieldName": "fullKitchen",
-      "fieldType": "Boolean",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "Boolean"
     },
     {
       "fieldName": "elevator",
@@ -47,8 +44,18 @@
       "fieldType": "Integer"
     }
   ],
-  "relationships": [],
-  "changelogDate": "20200522075651",
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "advertisment",
+      "otherEntityRelationshipName": "feature",
+      "relationshipName": "advertisment",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "useJPADerivedIdentifier": true
+    }
+  ],
+  "changelogDate": "20200723154453",
   "entityTableName": "feature",
   "dto": "no",
   "pagination": "no",

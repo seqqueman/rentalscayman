@@ -1,22 +1,31 @@
 package com.rentalscayman.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * A Feature.
  */
 @Entity
 @Table(name = "feature")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@DynamicUpdate
 public class Feature implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -27,8 +36,7 @@ public class Feature implements Serializable {
     @Column(name = "number_bathroom", nullable = false)
     private Integer numberBathroom;
 
-    @NotNull
-    @Column(name = "full_kitchen", nullable = false)
+    @Column(name = "full_kitchen")
     private Boolean fullKitchen;
 
     @Column(name = "elevator")
@@ -48,6 +56,12 @@ public class Feature implements Serializable {
 
     @Column(name = "m_2")
     private Integer m2;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonIgnore
+    private Advertisment advertisment;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -173,6 +187,19 @@ public class Feature implements Serializable {
 
     public void setm2(Integer m2) {
         this.m2 = m2;
+    }
+
+    public Advertisment getAdvertisment() {
+        return advertisment;
+    }
+
+    public Feature advertisment(Advertisment advertisment) {
+        this.advertisment = advertisment;
+        return this;
+    }
+
+    public void setAdvertisment(Advertisment advertisment) {
+        this.advertisment = advertisment;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -8,6 +8,7 @@ import { HomeComponent } from './home.component';
 import { AdvertismentComponent } from 'app/entities/advertisment/advertisment.component';
 import { CardAdComponent } from 'app/entities/advertisment/card-ad.component';
 import { SearchComponent } from './search.component';
+import { NoimagePipe } from 'app/shared/noimage.pipe';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { SearchComponent } from './search.component';
     // RentalscaymanAdvertismentModule,
     RouterModule.forChild([HOME_ROUTE]),
   ],
-  declarations: [HomeComponent, AdvertismentComponent, CardAdComponent, SearchComponent],
+  declarations: [HomeComponent, AdvertismentComponent, CardAdComponent, SearchComponent, NoimagePipe],
 })
 export class RentalscaymanHomeModule {}

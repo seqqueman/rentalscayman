@@ -4,7 +4,9 @@ import com.google.common.base.Joiner;
 import com.rentalscayman.domain.Advertisment;
 import com.rentalscayman.repository.AdvertismentSpecification;
 import com.rentalscayman.repository.AdvertismentSpecificationsBuilder;
+import com.rentalscayman.security.SecurityUtils;
 import com.rentalscayman.service.AdvertismentService;
+import com.rentalscayman.service.UserService;
 import com.rentalscayman.web.rest.errors.BadRequestAlertException;
 import com.rentalscayman.web.util.SearchOperation;
 import com.rentalscayman.web.util.SpecSearchCriteria;
@@ -52,8 +54,11 @@ public class AdvertismentResource {
 
     private final AdvertismentService advertismentService;
 
-    public AdvertismentResource(AdvertismentService advertismentService) {
+    private final UserService userService;
+
+    public AdvertismentResource(AdvertismentService advertismentService, UserService userService) {
         this.advertismentService = advertismentService;
+        this.userService = userService;
     }
 
     /**
@@ -69,6 +74,7 @@ public class AdvertismentResource {
         if (advertisment.getId() != null) {
             throw new BadRequestAlertException("A new advertisment cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        advertisment.setUser(userService.getUserWithAuthorities().orElse(null));
         Advertisment result = advertismentService.save(advertisment);
         return ResponseEntity
             .created(new URI("/api/advertisments/" + result.getId()))
@@ -91,6 +97,7 @@ public class AdvertismentResource {
         if (advertisment.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        advertisment.setUser(userService.getUserWithAuthorities().orElse(null));
         Advertisment result = advertismentService.save(advertisment);
         return ResponseEntity
             .ok()

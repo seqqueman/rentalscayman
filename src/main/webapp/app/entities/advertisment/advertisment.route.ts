@@ -69,7 +69,7 @@ export const advertismentRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'New Ad',
+      pageTitle: 'Create a New Ad',
     },
     canActivate: [UserRouteAccessService],
   },

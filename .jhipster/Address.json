@@ -40,8 +40,18 @@
       "fieldType": "BigDecimal"
     }
   ],
-  "relationships": [],
-  "changelogDate": "20200522075251",
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "advertisment",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "advertisment",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "useJPADerivedIdentifier": true
+    }
+  ],
+  "changelogDate": "20200723154053",
   "entityTableName": "address",
   "dto": "no",
   "pagination": "no",

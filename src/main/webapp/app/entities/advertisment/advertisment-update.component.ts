@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 // import { map } from 'rxjs/operators';
 
@@ -19,6 +19,7 @@ import { PropertyType } from 'app/shared/model/enumerations/property-type.model'
 import { AreaDisctrict } from 'app/shared/model/enumerations/area-disctrict.model';
 import { TypeAdvertisment } from 'app/shared/model/enumerations/type-advertisment.model';
 import { ViaType } from 'app/shared/model/enumerations/via-type.model';
+import { CurrencyPipe } from '@angular/common';
 
 type SelectableEntity = IAddress | IFeature | IUser;
 
@@ -31,6 +32,8 @@ export class AdvertismentUpdateComponent implements OnInit {
   addresses: IAddress[] = [];
   features: IFeature[] = [];
   users: IUser[] = [];
+  hidePrice = 0;
+
   // createAtDp: any;
   // modifiedAtDp: any;
 
@@ -41,6 +44,8 @@ export class AdvertismentUpdateComponent implements OnInit {
 
   editForm: FormGroup;
   isEdition = false;
+  title = '';
+  zipPatternRegex = '^[Kk][Yy]\\d[-\\s]{0,1}\\d{4}$';
 
   constructor(
     protected advertismentService: AdvertismentService,
@@ -48,6 +53,8 @@ export class AdvertismentUpdateComponent implements OnInit {
     protected featureService: FeatureService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
+    private currencyPipe: CurrencyPipe,
+    private router: Router,
     private fb: FormBuilder
   ) {
     this.editForm = fb.group({
@@ -57,19 +64,25 @@ export class AdvertismentUpdateComponent implements OnInit {
       // modifiedAt: [null, [Validators.required]],
       typeAd: new FormControl(this.eTypeAdvertis.FOR_RENT, Validators.required),
       propertyType: [null, [Validators.required]],
-      // active: [null, [Validators.required]],
-      price: [null, [Validators.required]],
+      active: [null],
+      price: [this.formatMoney('0'), [Validators.required]],
       // reference: [''],
       address: this.fb.group({
         typeOfVia: [null, [Validators.required]],
         name: [null, [Validators.required]],
-        zipCode: [null, [Validators.required]],
+        zipCode: [
+          null,
+          [
+            Validators.required,
+            //         , Validators.pattern(this.zipPatternRegex)
+          ],
+        ],
         areaDisctrict: [null, [Validators.required]],
       }),
       feature: this.fb.group({
         numberBedrooms: [null, [Validators.required]],
         numberBathroom: [null, [Validators.required]],
-        fullKitchen: [null, [Validators.required]],
+        fullKitchen: [],
         elevator: [],
         parking: [],
         airConditionair: [],
@@ -82,6 +95,9 @@ export class AdvertismentUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data.pageTitle;
+    });
     this.activatedRoute.data.subscribe(({ advertisment }) => {
       if (advertisment) {
         this.isEdition = true;
@@ -135,7 +151,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       //
       // this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
-    this.crearListeners();
+    // this.crearListeners();
   }
 
   updateForm(advertisment: IAdvertisment): void {
@@ -146,8 +162,8 @@ export class AdvertismentUpdateComponent implements OnInit {
       // modifiedAt: advertisment.modifiedAt,
       typeAd: this.isEdition ? advertisment.typeAd : this.eTypeAdvertis.FOR_RENT,
       propertyType: this.isEdition ? advertisment.propertyType : null,
-      // active: advertisment.active,
-      price: advertisment.price,
+      active: advertisment.active,
+      price: advertisment?.price ? this.formatMoney('' + advertisment.price) : '0',
       // reference: advertisment.reference,
       address: {
         typeOfVia: this.isEdition ? advertisment.address?.typeOfVia : null,
@@ -194,8 +210,8 @@ export class AdvertismentUpdateComponent implements OnInit {
       // modifiedAt: this.editForm.get(['modifiedAt'])!.value,
       typeAd: this.editForm.get(['typeAd'])!.value,
       propertyType: this.editForm.get(['propertyType'])!.value,
-      // active: this.editForm.get(['active'])!.value,
-      price: this.editForm.get(['price'])!.value,
+      active: this.editForm.get(['active'])!.value,
+      price: this.hidePrice,
       // reference: this.editForm.get(['reference'])!.value,
       address: {
         typeOfVia: this.editForm.get(['address', 'typeOfVia'])!.value,
@@ -223,14 +239,19 @@ export class AdvertismentUpdateComponent implements OnInit {
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IAdvertisment>>): void {
     result.subscribe(
-      () => this.onSaveSuccess(),
+      resp => this.onSaveSuccess(resp.body?.id!),
       () => this.onSaveError()
     );
   }
 
-  protected onSaveSuccess(): void {
+  protected onSaveSuccess(idNewAd: number): void {
     this.isSaving = false;
-    this.previousState();
+    // this.previousState();
+    this.router.navigate(['/image/new'], {
+      queryParams: {
+        idAdv: idNewAd,
+      },
+    });
   }
 
   protected onSaveError(): void {
@@ -248,5 +269,24 @@ export class AdvertismentUpdateComponent implements OnInit {
 
     // this.forma.statusChanges.subscribe( status => console.log({ status }));
     // this.forma.get('nombre').valueChanges.subscribe( console.log );
+  }
+
+  transformTotal(): void {
+    const valor = this.editForm.controls.price.value;
+    this.editForm.controls.price.setValue(
+      /* eslint-disable-next-line */
+      this.formatMoney(valor.toString().replace(/\,/g, '')),
+      { emitEvent: false }
+    );
+  }
+
+  formatMoney(value: string): string {
+    this.hidePrice = +value;
+    /* eslint-disable-next-line */
+    const temp = `${value}`.toString().replace(/\,/g, '');
+    const converted = this.currencyPipe.transform(temp, 'KYD ')?.replace('$', '') || '';
+    /* eslint-disable-next-line */
+    // console.log(converted);
+    return converted;
   }
 }

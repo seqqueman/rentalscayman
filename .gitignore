@@ -149,3 +149,4 @@ Desktop.ini
 src/main/resources/firstProject-84656810d396.json
 src/main/resources/rentals-cayman.json
 src/main/resources/rentalscayman.json
+src/main/java/com/rentalscayman/config/SecurityConfiguration.java
