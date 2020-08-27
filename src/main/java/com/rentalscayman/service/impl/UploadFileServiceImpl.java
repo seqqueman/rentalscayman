@@ -1,8 +1,6 @@
 package com.rentalscayman.service.impl;
 
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.*;
 import com.google.firebase.cloud.StorageClient;
 import com.rentalscayman.service.FirebaseInitialize;
 import com.rentalscayman.service.IUploadFileService;
@@ -87,12 +85,15 @@ public class UploadFileServiceImpl implements IUploadFileService {
     @Override
     public boolean deleteImage(String photoName) {
         if (null != photoName && photoName.length() > 0) {
-            Path rutaFotoAnterior = getPath(photoName);
-            File ficheroFotoAnterior = rutaFotoAnterior.toFile();
-            if (ficheroFotoAnterior.exists() && ficheroFotoAnterior.canRead()) {
-                ficheroFotoAnterior.delete();
-                return true;
-            }
+            //            Path rutaFotoAnterior = getPath(photoName);
+            //            File ficheroFotoAnterior = rutaFotoAnterior.toFile();
+            //            if (ficheroFotoAnterior.exists() && ficheroFotoAnterior.canRead()) {
+            //                ficheroFotoAnterior.delete();
+            //                return true;
+            //            }
+            Storage storage = StorageOptions.getDefaultInstance().getService();
+            BlobId blobId = BlobId.of(bucketName, photoName);
+            return storage.delete(blobId);
         }
 
         return false;

@@ -17,6 +17,7 @@ export class ImageService {
   public resourceUrl = SERVER_API_URL + 'api/images';
 
   public resourceUploadUrl = SERVER_API_URL + 'api/images/upload';
+  resourceUploadUrlMulti = SERVER_API_URL + 'api/images/upload/multi';
 
   constructor(protected http: HttpClient) {}
 
@@ -35,6 +36,16 @@ export class ImageService {
 
     return this.http
       .post<IImage>(this.resourceUploadUrl, formData, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  uploadImages(id: string, fileImages: IImage[]): Observable<EntityResponseType> {
+    const formData = new FormData();
+    formData.append('fileImages', JSON.stringify(fileImages));
+    formData.append('id', id);
+
+    return this.http
+      .post<IImage>(this.resourceUploadUrlMulti, formData, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 

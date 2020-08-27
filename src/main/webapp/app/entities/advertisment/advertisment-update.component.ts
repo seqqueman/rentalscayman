@@ -33,6 +33,7 @@ export class AdvertismentUpdateComponent implements OnInit {
   features: IFeature[] = [];
   users: IUser[] = [];
   hidePrice = 0;
+
   // createAtDp: any;
   // modifiedAtDp: any;
 
@@ -63,7 +64,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       // modifiedAt: [null, [Validators.required]],
       typeAd: new FormControl(this.eTypeAdvertis.FOR_RENT, Validators.required),
       propertyType: [null, [Validators.required]],
-      // active: [null, [Validators.required]],
+      active: [null],
       price: [this.formatMoney('0'), [Validators.required]],
       // reference: [''],
       address: this.fb.group({
@@ -150,7 +151,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       //
       // this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
     });
-    this.crearListeners();
+    // this.crearListeners();
   }
 
   updateForm(advertisment: IAdvertisment): void {
@@ -161,7 +162,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       // modifiedAt: advertisment.modifiedAt,
       typeAd: this.isEdition ? advertisment.typeAd : this.eTypeAdvertis.FOR_RENT,
       propertyType: this.isEdition ? advertisment.propertyType : null,
-      // active: advertisment.active,
+      active: advertisment.active,
       price: advertisment?.price ? this.formatMoney('' + advertisment.price) : '0',
       // reference: advertisment.reference,
       address: {
@@ -209,7 +210,7 @@ export class AdvertismentUpdateComponent implements OnInit {
       // modifiedAt: this.editForm.get(['modifiedAt'])!.value,
       typeAd: this.editForm.get(['typeAd'])!.value,
       propertyType: this.editForm.get(['propertyType'])!.value,
-      // active: this.editForm.get(['active'])!.value,
+      active: this.editForm.get(['active'])!.value,
       price: this.hidePrice,
       // reference: this.editForm.get(['reference'])!.value,
       address: {
@@ -285,7 +286,7 @@ export class AdvertismentUpdateComponent implements OnInit {
     const temp = `${value}`.toString().replace(/\,/g, '');
     const converted = this.currencyPipe.transform(temp, 'KYD ')?.replace('$', '') || '';
     /* eslint-disable-next-line */
-    console.log(converted);
+    // console.log(converted);
     return converted;
   }
 }

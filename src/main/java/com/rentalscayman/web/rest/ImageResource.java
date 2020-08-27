@@ -1,29 +1,30 @@
 package com.rentalscayman.web.rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.storage.Blob;
 import com.rentalscayman.domain.Advertisment;
 import com.rentalscayman.domain.Image;
 import com.rentalscayman.repository.ImageRepository;
 import com.rentalscayman.service.AdvertismentService;
 import com.rentalscayman.service.IUploadFileService;
+import com.rentalscayman.service.dto.ImageDTO;
 import com.rentalscayman.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,7 +67,9 @@ public class ImageResource {
      * {@code POST  /images} : Create a new image.
      *
      * @param image the image to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new image, or with status {@code 400 (Bad Request)} if the image has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new image, or with status {@code 400 (Bad Request)} if the
+     *         image has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/images")
@@ -83,7 +86,7 @@ public class ImageResource {
     }
 
     @PostMapping("/images/upload")
-    //	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+    // @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<Image> uploadImage(
         @RequestParam("fileImage") MultipartFile fileImage,
         @RequestParam("id") Long id,
@@ -97,7 +100,7 @@ public class ImageResource {
             uploadToCloud(fileImage, description, photo);
 
             advert.addImage(photo);
-            //    		photo.setAdvertisment(advert);
+            // photo.setAdvertisment(advert);
 
             photo = imageRepository.save(photo);
         }
@@ -105,6 +108,31 @@ public class ImageResource {
         return ResponseEntity
             .created(new URI("/api/images/upload" + photo.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, photo.getId().toString()))
+            .body(photo);
+    }
+
+    @PostMapping("/images/upload/multi")
+    // @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    public ResponseEntity<Image> uploadImages(@RequestParam("fileImages") Object jsonArrayPhotos, @RequestParam("id") Long id)
+        throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        List<ImageDTO> photos = mapper.readValue(jsonArrayPhotos.toString(), new TypeReference<List<ImageDTO>>() {});
+
+        Image photo = new Image();
+        Advertisment advert = advertismentService.findOne(id).orElseThrow(() -> new Exception("Problem adding image to advertisment"));
+
+        if (!photos.isEmpty()) {
+            for (ImageDTO image : photos) {
+                uploadToCloud(convertStringImageToMultipart(image), image.getDescription(), photo);
+                advert.addImage(photo);
+                photo = imageRepository.save(photo);
+                photo = new Image();
+            }
+        }
+
+        return ResponseEntity
+            .created(new URI("/api/images/upload/multi"))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, ""))
             .body(photo);
     }
 
@@ -127,9 +155,10 @@ public class ImageResource {
      * {@code PUT  /images} : Updates an existing image.
      *
      * @param image the image to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated image,
-     * or with status {@code 400 (Bad Request)} if the image is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the image couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated image, or with status {@code 400 (Bad Request)} if the
+     *         image is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the image couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/images")
@@ -148,7 +177,8 @@ public class ImageResource {
     /**
      * {@code GET  /images} : get all the images.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of images in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of images in body.
      */
     @GetMapping("/images")
     public List<Image> getAllImages() {
@@ -160,7 +190,8 @@ public class ImageResource {
      * {@code GET  /images/:id} : get the "id" image.
      *
      * @param id the id of the image to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the image, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the image, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/images/{id}")
     public ResponseEntity<Image> getImage(@PathVariable Long id) {
@@ -179,10 +210,19 @@ public class ImageResource {
     public ResponseEntity<Void> deleteImage(@PathVariable Long id) {
         log.debug("REST request to delete Image : {}", id);
 
-        imageRepository.deleteById(id);
+        Image image = imageRepository.findById(id).orElse(null);
+        if (null != image) {
+            imageRepository.deleteById(id);
+            uploadService.deleteImage(image.getName());
+        }
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    private MultipartFile convertStringImageToMultipart(ImageDTO img) {
+        return new MockMultipartFile(img.getName(), img.getName(), img.getImgContentType(), Base64.getDecoder().decode(img.getImg()));
     }
 }
